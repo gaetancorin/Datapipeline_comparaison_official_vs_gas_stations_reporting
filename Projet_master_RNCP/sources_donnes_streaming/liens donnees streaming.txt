@@ -1,0 +1,4 @@
+listes donnees streaming:
+
+https://github.com/bytewax/awesome-public-real-time-datasets
+https://github.com/ColinEberhardt/awesome-public-streaming-datasets
