@@ -1,0 +1,14 @@
+(2025)
+
+ID UNIQUE:
+02.18:	14 078
+02.20:	14 077
+
+ALL VALUES: (total de 55 117 030 rows)
+02.18:	671 344
+02.20:	700 778
+
+VALEURS NULLES:
+	id	lat	long	cp	ville	addre	nom	maj	val
+02.18:	0	74	74	0	0	31	4555	4555	4555
+02.20:	0	73	73	0	0	35	4550	4550	4550
