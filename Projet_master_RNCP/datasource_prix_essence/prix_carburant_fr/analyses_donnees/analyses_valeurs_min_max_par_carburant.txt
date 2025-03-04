@@ -1,5 +1,6 @@
 ['PrixCarburants_annuel_2007.csv', 'PrixCarburants_annuel_2008.csv', 'PrixCarburants_annuel_2009.csv', 'PrixCarburants_annuel_2010.csv', 'PrixCarburants_annuel_2011.csv', 'PrixCarburants_annuel_2012.csv', 'PrixCarburants_annuel_2013.csv', 'PrixCarburants_annuel_2014.csv', 'PrixCarburants_annuel_2015.csv', 'PrixCarburants_annuel_2016.csv', 'PrixCarburants_annuel_2017.csv', 'PrixCarburants_annuel_2018.csv', 'PrixCarburants_annuel_2019.csv', 'PrixCarburants_annuel_2020.csv', 'PrixCarburants_annuel_2021.csv', 'PrixCarburants_annuel_2022.csv', 'PrixCarburants_annuel_2023.csv', 'PrixCarburants_annuel_2024.csv', 'PrixCarburants_annuel_2025.csv']
-/////////////////////////////////////////////////////
+
+----------------------------------------------
 PrixCarburants_annuel_2007.csv
 ['Gazole' 'SP95' nan 'GPLc' 'E85']
 valeur max
@@ -41,6 +42,14 @@ valeur min
 666805  2007_04_30  SP95     1.0
 855883  2007_01_30  SP95    11.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                maj   nom  valeur
 636213  2007_11_30  GPLc  1312.0
 452867  2007_12_14  GPLc  1280.0
@@ -79,7 +88,7 @@ valeur min
 731475  2007_01_13  E85   780.0
 731474  2007_01_12  E85   780.0
 
-/////////////////////////////////////////////////////
+--------------------------------------------------------
 PrixCarburants_annuel_2008.csv
 ['Gazole' 'SP95' 'GPLc' nan 'E85']
 valeur max
@@ -140,6 +149,14 @@ valeur min
 765787  2008_12_09  GPLc   500.0
 765788  2008_12_20  GPLc   500.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1312327  2008_12_08  E85  1100.0
 1262468  2008_12_11  E85  1099.0
@@ -158,7 +175,8 @@ valeur min
 1419484  2008_12_31  E85   742.0
 1206888  2008_12_21  E85   742.0
 262160   2008_12_26  E85   742.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------
 PrixCarburants_annuel_2009.csv
 ['Gazole' 'SP95' 'E85' 'GPLc' 'E10' nan]
 valeur max
@@ -256,7 +274,16 @@ valeur min
 1169680  2009_07_11  E10   959.0
 1169678  2009_07_10  E10   959.0
 1169679  2009_07_11  E10   959.0
-/////////////////////////////////////////////////////
+valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+
+---------------------------------------------------------
 PrixCarburants_annuel_2010.csv
 ['Gazole' 'SP95' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -317,6 +344,14 @@ valeur min
 1145542  2010_07_29  GPLc   437.0
 1179300  2010_07_30  GPLc   439.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 572911   2010_12_06  E10  1850.0
 1202439  2010_11_16  E10  1790.0
@@ -354,7 +389,8 @@ valeur min
 313284   2010_07_13  E85   600.0
 1165642  2010_06_04  E85   600.0
 1163640  2010_09_10  E85   600.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------
 PrixCarburants_annuel_2011.csv
 ['Gazole' 'SP95' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -415,6 +451,14 @@ valeur min
 839658   2011_01_29  GPLc   508.0
 515410   2011_10_03  GPLc   519.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1530224  2011_04_29  E10  1839.0
 1180977  2011_02_23  E10  1838.0
@@ -452,7 +496,8 @@ valeur min
 467387   2011_08_02  E85   725.0
 1046181  2011_02_10  E85   736.0
 1046166  2011_01_06  E85   736.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------
 PrixCarburants_annuel_2012.csv
 ['Gazole' 'SP95' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -513,6 +558,14 @@ valeur min
 1502959  2012_07_26  GPLc   585.0
 1285760  2012_07_26  GPLc   585.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 682485   2012_08_27  E10  1880.0
 682486   2012_08_29  E10  1860.0
@@ -550,7 +603,8 @@ valeur min
 1660009  2012_01_27  E85   690.0
 1152043  2012_12_26  E85   700.0
 1727483  2012_06_11  E85   705.0
-/////////////////////////////////////////////////////
+
+--------------------------------------------------------------
 PrixCarburants_annuel_2013.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -630,6 +684,14 @@ valeur min
 1815091  2013_09_10  GPLc   590.0
 1431633  2013_07_25  GPLc   591.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1105527  2013_03_23  E10  1967.0
 809668   2013_12_21  E10  1915.0
@@ -667,7 +729,8 @@ valeur min
 656911   2013_07_25  E85   759.0
 656913   2013_09_13  E85   761.0
 411313   2013_10_11  E85   764.0
-/////////////////////////////////////////////////////
+
+-------------------------------------------------------------
 PrixCarburants_annuel_2014.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -747,6 +810,14 @@ valeur min
 1131211  2014_08_02  GPLc   574.0
 1131208  2014_07_31  GPLc   574.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1291013  2014_10_15  E10  2000.0
 1291012  2014_10_15  E10  2000.0
@@ -784,7 +855,8 @@ valeur min
 849049   2014_10_31  E85   600.0
 849041   2014_09_02  E85   600.0
 849036   2014_08_15  E85   600.0
-/////////////////////////////////////////////////////
+
+-------------------------------------------------------------------
 PrixCarburants_annuel_2015.csv
 ['Gazole' 'SP95' 'E10' 'SP98' 'GPLc' nan 'E85']
 valeur max
@@ -883,6 +955,14 @@ valeur min
 1682859  2015_07_30  GPLc   462.0
 2620398  2015_08_01  GPLc   462.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1627820  2015_08_03  E85  1400.0
 2904615  2015_08_31  E85  1400.0
@@ -901,7 +981,8 @@ valeur min
 1270504  2015_10_30  E85   422.0
 2485826  2015_12_31  E85   425.0
 2485825  2015_12_30  E85   425.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------------------
 PrixCarburants_annuel_2016.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -981,6 +1062,14 @@ valeur min
 1433882  2016_10_10  GPLc   262.0
 1433883  2016_10_10  GPLc   262.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 3719961  2016_05_24  E10  1888.0
 3686586  2016_05_24  E10  1888.0
@@ -1018,7 +1107,8 @@ valeur min
 2690256  2016_09_28  E85     1.0
 2813454  2016_08_05  E85     9.0
 795826   2016_12_20  E85    10.0
-/////////////////////////////////////////////////////
+
+------------------------------------------------------------------
 PrixCarburants_annuel_2017.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -1098,6 +1188,14 @@ valeur min
 1033463  2017_09_12  GPLc    65.0
 1084428  2017_08_31  GPLc    67.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 3312144  2017_10_19  E10  4494.0
 2298260  2017_09_25  E10  4415.0
@@ -1135,7 +1233,8 @@ valeur min
 928635   2017_06_12  E85     1.0
 2652952  2017_09_04  E85     1.0
 46933    2017_03_18  E85     1.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------------
 PrixCarburants_annuel_2018.csv
 ['Gazole' 'SP95' 'E10' 'SP98' 'GPLc' nan 'E85']
 valeur max
@@ -1234,6 +1333,14 @@ valeur min
 577685   2018_02_21  GPLc   372.0
 865458   2018_01_03  GPLc   440.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 901735   2018_04_23  E85  7749.0
 1429895  2018_06_27  E85  1849.0
@@ -1252,7 +1359,8 @@ valeur min
 1550711  2018_03_23  E85   378.0
 3256312  2018_04_21  E85   380.0
 3256311  2018_04_20  E85   383.0
-/////////////////////////////////////////////////////
+
+------------------------------------------------------------------
 PrixCarburants_annuel_2019.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -1332,6 +1440,14 @@ valeur min
 1861684  2019_08_23  GPLc   383.0
 1677996  2019_07_05  GPLc   457.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 166346   2019_05_31  E10  6549.0
 3328665  2019_06_11  E10  5530.0
@@ -1369,7 +1485,8 @@ valeur min
 2542723  2019_04_22  E85    69.0
 1690799  2019_10_07  E85    74.0
 3219382  2019_01_04  E85   360.0
-/////////////////////////////////////////////////////
+
+--------------------------------------------------------------------
 PrixCarburants_annuel_2020.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -1449,6 +1566,14 @@ valeur min
 667671   2020_05_19  GPLc   499.0
 800886   2020_09_21  GPLc   499.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1207639  2020_02_28  E10  8433.0
 3085224  2020_12_07  E10  7309.0
@@ -1486,7 +1611,8 @@ valeur min
 682657   2020_05_23  E85   105.0
 2873193  2020_09_04  E85   359.0
 1073202  2020_08_15  E85   370.0
-/////////////////////////////////////////////////////
+
+----------------------------------------------------------------------
 PrixCarburants_annuel_2021.csv
 ['Gazole' 'SP95' 'SP98' 'GPLc' nan 'E10' 'E85']
 valeur max
@@ -1566,6 +1692,14 @@ valeur min
 1411331  2021_08_20  GPLc    89.0
 2267933  2021_08_16  GPLc   103.0
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 1423994  2021_10_06  E10  8888.0
 994629   2021_11_12  E10  7709.0
@@ -1603,7 +1737,8 @@ valeur min
 3732664  2021_11_20  E85    99.0
 2693176  2021_10_14  E85   219.0
 2693177  2021_10_14  E85   219.0
-/////////////////////////////////////////////////////
+
+-----------------------------------------------------------------------------
 PrixCarburants_annuel_2022.csv
 ['Gazole' 'SP95' 'SP98' nan 'E85' 'GPLc' 'E10']
 valeur max
@@ -1664,6 +1799,14 @@ valeur min
 2504734  2022_06_03  SP98   0.139
 3113656  2022_05_31  SP98   0.146
 valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur max
                 maj  nom  valeur
 3431471  2022_11_23  E85   9.969
 3616325  2022_03_08  E85   8.790
@@ -1720,7 +1863,8 @@ valeur min
 1440494  2022_09_13  E10   0.157
 2914948  2022_11_09  E10   0.160
 1462596  2022_06_15  E10   0.210
-/////////////////////////////////////////////////////
+
+---------------------------------------------------------------------------
 PrixCarburants_annuel_2023.csv
 ['Gazole' 'SP95' 'E85' 'E10' 'SP98' 'GPLc' nan]
 valeur max
@@ -1837,7 +1981,16 @@ valeur min
 3107184  2023_04_12  GPLc   0.098
 813451   2023_02_03  GPLc   0.099
 2373225  2023_06_02  GPLc   0.099
-/////////////////////////////////////////////////////
+valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+
+----------------------------------------------------------------------------
 PrixCarburants_annuel_2024.csv
 ['Gazole' 'SP95' 'E85' 'E10' 'SP98' 'GPLc' nan]
 valeur max
@@ -1954,7 +2107,16 @@ valeur min
 1336854  2024_06_12  GPLc   0.672
 1336855  2024_06_12  GPLc   0.672
 645112   2024_08_31  GPLc   0.683
-/////////////////////////////////////////////////////
+valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+
+-----------------------------------------------------------------
 PrixCarburants_annuel_2025.csv
 ['Gazole' 'SP95' 'E85' 'E10' 'SP98' 'GPLc' nan]
 valeur max
@@ -2071,3 +2233,11 @@ valeur min
 221253  2025_01_21  GPLc   0.842
 75372   2025_01_07  GPLc   0.849
 75390   2025_01_29  GPLc   0.849
+valeur max
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
+valeur min
+Empty DataFrame
+Columns: [maj, nom, valeur]
+Index: []
