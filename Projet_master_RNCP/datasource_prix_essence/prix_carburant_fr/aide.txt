@@ -1,0 +1,10 @@
+# Input without transformation
+maj = 2007_01_04_18:43
+
+# Input with zscore and median
+date = 2007_01_04
+
+
+# Input with zscore and last
+date = 2007_01_04
+heuremin = 18:43:00
