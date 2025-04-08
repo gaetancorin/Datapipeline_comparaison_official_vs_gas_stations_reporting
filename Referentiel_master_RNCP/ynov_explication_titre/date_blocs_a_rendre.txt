@@ -1,0 +1,15 @@
+bloc1 = 20 pages
+bloc2 = 30 pages
+bloc3 = 20 pages
+bloc4 = oral 45min(30min+15min questions)
+
+Présenter toutes les compétences
+les personnes du bloc 4 ne sont pas forcement ceux du bloc 1,2,3
+
+sur mycertif : déposer les 3 bloc écris et le support présentation orale
+date sur mycertif: si 1er janvier-> dernier delais 1er janvier 23h59min
+
+8 juillet -> bloc3
+25 / 31 aout (semaine35) -> bloc 1 et 2
+23 / 24 septembre -> eval oral bloc 4 ou 5 (deposer le diapo au plus tard la veille)
+
