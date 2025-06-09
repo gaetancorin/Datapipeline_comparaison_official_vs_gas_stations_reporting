@@ -1,0 +1,41 @@
+Streaming Dataset
+
+diplôme:
+https://melodious-saffron-4a6.notion.site/RNCP39586-Ing-nieur-en-science-des-donn-es-sp-cialis-en-infrastructure-data-ou-en-apprentissage-a-11a3e22c4d5d8033b517f823a5720519
+
+graph front facile:
+https://streamlit.io/
+
+outils visualisation python (analyses data):
+https://seaborn.pydata.org/index.html
+https://matplotlib.org/stable/gallery/index
+
+condensés données streaming liens:
+https://github.com/ColinEberhardt/awesome-public-streaming-datasets
+https://github.com/bytewax/awesome-public-real-time-datasets
+https://ably.com/blog/10-realtime-data-sources-you-wont-believe-are-free
+
+données streaming:
+https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score
+https://data.opendatasoft.com/explore/?disjunctive.language&disjunctive.source_domain_title&disjunctive.theme&disjunctive.semantic.classes&disjunctive.semantic.properties&sort=explore.popularity_score&refine.modified=2025
+
+Spotify:
+https://www.doprax.com/tutorial/spotify-api-tutorial-a-step-by-step-beginner-guide/
+https://developer.spotify.com/documentation/web-api/tutorials/getting-started#create-an-app
+https://developer.spotify.com/dashboard
+
+PRIX CARBURANT:
+https://www.prix-carburants.gouv.fr/rubrique/opendata/
+https://data.opendatasoft.com/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2%40opendatamef/information/?sort=gazole_maj&location=13,43.62595,1.46024&basemap=jawg.streets
+https://help.opendatasoft.com/apis/ods-explore-v2/#section/Opendatasoft-Query-Language-(ODSQL)/Where-clause
+https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/information/?sort=-gazole_maj&location=5,46.44217,2.412&basemap=jawg.light
+https://data.economie.gouv.fr/explore/?sort=modified&q=carburant
+
+COURS BOURSE:
+https://fr.finance.yahoo.com/quote/TTE.PA/history/?period1=946886400&period2=1741794056&guccounter=1
+
+
+
+
+
+
