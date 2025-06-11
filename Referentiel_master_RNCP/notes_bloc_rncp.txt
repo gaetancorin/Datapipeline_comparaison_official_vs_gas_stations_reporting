@@ -1,6 +1,19 @@
-Il est possible de choisir un projet par BLOC.
-BLOCS écrit a rendre MI aout
-BLOC oral MI septembre
+notion:
+https://melodious-saffron-4a6.notion.site/RNCP39586-Ing-nieur-en-science-des-donn-es-sp-cialis-en-infrastructure-data-ou-en-apprentissage-a-11a3e22c4d5d8033b517f823a5720519
+
+Il est possible de choisir un projet par BLOC (les personnes du bloc 4 ne sont pas forcement ceux du bloc 1,2,3)
+Essayer de présenter toutes les compétences
+
+Validation Jenna:
+
+Dates validées pour vos passages de blocs :
+
+BLOC 3 : 8 juillet 23H59 dépôt sur mycertif
+BLOC 1 : 18 août 23H59 dépôt sur mycertif
+BLOC 2 : 18 août 23H59 dépôt sur mycertif
+BLOC 4/5 : 23/24 septembre soutenance au campus(deposer support presentation oral sur mycertif quelque jours avant)
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 BLOC1:
 ECRIT 20 pages maximum
@@ -39,3 +52,6 @@ Faire une vidéo backup de l'application fonctionnel AU CAS OU.
 
 
 Le but etant que BLOC1,2,3 soit la théorie et BLOC4 présente la pratique
+
+----------------------------------------------------------
+

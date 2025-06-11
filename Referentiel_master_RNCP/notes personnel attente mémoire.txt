@@ -1,6 +1,0 @@
-Analyse des attentes du mémoire et bilan synthétiques:
-- pipeline de données opendata (idéal d'en avoir plusieurs pour croisements de données)
-- base de données (relationnel ou non relationnel ?)
-- création de KPIs clés destiné a un utilisateur final
-- tests unitaires
-- CI/CD ?
