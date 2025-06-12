@@ -45,11 +45,13 @@ arbitrage d'un potentiel problème et trouver des solutions en cas de risques av
 veille technologique, mise en place
 RSE(blabla l 'écologie ce qu on met en place ect)
 
+Attention ! pour doc technique ou utilisateurs, expliquer comment on la réalisé, architecture de doc, puis un exemple d 'un point précis par exemple.
+
 ///////////////////////////////////////////////////////
 BLOC4:
 -necessite choix de dev:
 ENTREPOT DE DONNES
-PIPELINE CI /CD
+PIPELINE CI /CD (explication dockerfile, test unitaire peuvent suffire)
 PIPELINE TEMPS REEL
 ORCHESTRATEUR
 CALCULS DISTRIBUES
