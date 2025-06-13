@@ -1,6 +1,7 @@
 **/.ipynb_checkpoints
-**/gas_station_price/results/
-**/brent_stock_price/results/
+**/eur_gas_station_price/results/
+**/usd_brent_stock_price/results/
+**/eur_usd_stock_price/results/
 **/.env
 **/env.txt
 #**/test_dump_file_on_s3.ipynb
