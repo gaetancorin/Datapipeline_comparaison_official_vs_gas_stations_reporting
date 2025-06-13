@@ -1,6 +1,6 @@
-Projet_master_RNCP/datasource_prix_essence/gas_station_price/results/
 **/.ipynb_checkpoints
-datasource_prix_essence/gas_station_price/results/
+**/gas_station_price/results/
+**/brent_stock_price/results/
 **/.env
 **/env.txt
 #**/test_dump_file_on_s3.ipynb

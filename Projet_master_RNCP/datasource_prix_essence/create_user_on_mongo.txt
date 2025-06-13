@@ -1,0 +1,25 @@
+aller sur le terminal du DBMS
+
+use admin
+
+db.createUser({
+  user: "read_only",
+  pwd: "password",
+  roles: [
+    { role: "read", db: "brent_stock_price" },
+    { role: "read", db: "eur_usd_stock_price" },
+    { role: "read", db: "gas_station_price" }
+  ]
+})
+
+db.createUser({
+  user: "read_write",
+  pwd: "password",
+  roles: [
+    { role: "readWrite", db: "brent_stock_price" },
+    { role: "readWrite", db: "eur_usd_stock_price" },
+    { role: "readWrite", db: "gas_station_price" }
+  ]
+})
+
+show users
