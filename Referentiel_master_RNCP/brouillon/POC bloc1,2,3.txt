@@ -9,10 +9,11 @@ BESOIN DU PROJET
 1.3.1 Flask et Python pour expliquer pourquoi ces outils
 1.4.1fichier .env, fichier .gitignore, necessite d'implémenter un système de backup bdd sur le flask, et d avoir un S3 sécurisé pour les backups 
 
-1.3 Realisation de analyses sur notebook
-2.1 Realisation de graphs présentable et compréhensible aux clients visés
-2.2 Bilan de ce que signifie le graph et réalisations de conclusions
-3.2 Doc technique sur quels transformations sont opérés de la bdd jusqu'aux données graphs(orienté tech)
+2.1.3 Realisation de analyses sur notebook
+2.2.1 Realisation de graphs présentable et compréhensible aux clients visés
+2.2.2 Bilan de ce que signifie le graph et réalisations de conclusions
+2.3.1 Faire une doc d utilisation
+2.3.2 Doc technique sur quels transformations sont opérés de la bdd jusqu'aux données graphs(orienté tech)
 
 
 3

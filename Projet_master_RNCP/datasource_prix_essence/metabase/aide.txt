@@ -12,3 +12,15 @@ connect MongoDB atlas:
 https://www.youtube.com/watch?v=3TU9IXRlH24
 
 
+
+
+voici mon DBMS:
+bdd= stockmarket
+collection = eur_usd_stock_price
+colonne a joindre: Date  (valeur journalier)
+collection = usd_brent_stock_price
+colonne a joindre:  Date (valeur journalier)
+
+bdd = french_gas_station
+collection = eur_gas_station_price
+colonne a joindre:  Date (valeur journalier)
