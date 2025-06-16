@@ -1,7 +1,5 @@
 # 2007 - 2025:
 # french_gas_station only last value by gas_station:
-# 1 526 001 rows
-
 YEAR:  2007 len =  651 116
 YEAR:  2008 len =  997 061
 YEAR:  2009 len =  1 023 922

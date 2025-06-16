@@ -1,0 +1,14 @@
+type essences:
+"E85"
+"GPLc"
+"Gazole"
+"SP95"
+"E10"
+"SP98"
+
+Fuel_E85_eur_liter
+Fuel_GPLC_eur_liter
+Fuel_GAZOLE_eur_liter
+Fuel_SP95_eur_liter
+Fuel_SP98_eur_liter
+Fuel_E10_eur_liter
