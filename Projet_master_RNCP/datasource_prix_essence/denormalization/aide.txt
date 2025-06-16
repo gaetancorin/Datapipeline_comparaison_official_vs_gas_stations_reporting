@@ -6,9 +6,31 @@ type essences:
 "E10"
 "SP98"
 
-Fuel_E85_eur_liter
-Fuel_GPLC_eur_liter
-Fuel_GAZOLE_eur_liter
-Fuel_SP95_eur_liter
-Fuel_SP98_eur_liter
-Fuel_E10_eur_liter
+Gas_E85_eur_liter
+Gas_GPLC_eur_liter
+Gas_GAZOLE_eur_liter
+Gas_SP95_eur_liter
+Gas_SP98_eur_liter
+Gas_E10_eur_liter
+
+
+Calcul de la marge brute de raffinage sur Brent:
+2015 a mai 2025 (mois par mois):
+https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
+
+Cout de transport et de distribution:
+2015 a 2024 (année par année)
+https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
+
+
+graphique prix HTT et TTC
+https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
+
+
+explication de HTT:
+Les prix et marges des produits pétroliers en France et dans l’Union européenne
+https://www.ecologie.gouv.fr/sites/default/files/documents/NPG-2025.06.06.pdf
+
+donc si je fais:
+ Brent brut + marge brute de raffinage = Brent raffiné
+prix HHT - Brent raffiné = Cout de transport et de distribution mois par mois
