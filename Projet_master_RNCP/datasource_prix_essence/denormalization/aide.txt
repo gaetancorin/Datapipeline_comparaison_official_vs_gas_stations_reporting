@@ -17,6 +17,8 @@ Gas_E10_eur_liter
 Calcul de la marge brute de raffinage sur Brent:
 2015 a mai 2025 (mois par mois):
 https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
+telechargement ici:
+https://www.ecologie.gouv.fr/sites/default/files/documents/Historique%20de%20la%20marge%20brute%20de%20raffinage%20sur%20Brent%20depuis%202015%20%28moyennes%20mensuelles%29_1.xlsx
 
 Cout de transport et de distribution:
 2015 a 2024 (année par année)
@@ -24,7 +26,10 @@ https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
 
 
 graphique prix HTT et TTC
+de 1985 a aujourd'hui
 https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers
+xml:
+https://www.ecologie.gouv.fr/simulator-energies/monitoring/export/59707a7b55c0012d0efade376d62a56d3c86129a
 
 
 explication de HTT:
