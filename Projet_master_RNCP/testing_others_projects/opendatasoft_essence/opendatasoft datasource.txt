@@ -1,7 +1,0 @@
-datasource =
-https://data.opendatasoft.com/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2%40opendatamef/information
-
-Cette source possède les 10 007 données les plus récentes
-Sur un même enregistrement, la donnée est updaté pour être remplacé par une nouvelle.
-Il n'y a donc pas d'historique (les anciennes dates représente les stations essence fermés), 
-mais il s'agit d'un streaming-data interessant a travailler.
