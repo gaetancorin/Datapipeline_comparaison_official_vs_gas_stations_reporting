@@ -1,0 +1,42 @@
+/launch_complete_pipeline_oil_prices
+    /launch_etl_gas_stations_oil_prices
+        extract_gas_stations_oil_prices()
+            get_last_mongo_data_dates()
+            extract_new_gas_stations_oil_prices()
+        transform_gas_stations_oil_prices()
+        load_gas_stations_oil_prices()
+    /launch_etl_official_oil_prices
+        extract_official_oil_prices()
+            get_last_mongo_data_dates()
+            extract_new_official_oil_prices()
+        transform_official_oil_prices()
+        load_official_oil_prices()
+    /prepare_gas_station_prices_for_dataviz()
+        get_last_prepared_dates()
+        process_new_gas_station_oils_prices()
+        load_denormalized_gas_station_data()
+    /merge_official_and_station_oils_prices()
+        get_last_mongo_merge_data_dates()
+        process_new_data_to_merge()
+        load_new_merged_data()
+/save_mongo_dump_to_S3
+/load_mongo_dump_from_S3
+
+
+--- Point de questionnement ---
+* get_last_mongo_data: que se passe il si la connexion mongo ne marche pas ? si la bdd/la collection n existe pas ?
+
+* extract_missing_datas:
+ou sont stocker les csv en attente de traitement ? en local dans inputs ?
+
+transform_datas_gas_station:
+recupérer les csv dans input ?
+stocker les csv transformé dans inputs ?
+
+Comment les fonctions savent quel fichiers elles doivent récupérer ?
+Soit un clean des fichiers a la fin, soit une sauvegarde des fichiers traités
+
+* denormalize_gas_station_prices:
+* merge_official_and_station_prices:
+Comment ils font pour savoir les dernières données ? Ou ils reconstruissent tout ?
+en allant voir sur Mongo !
