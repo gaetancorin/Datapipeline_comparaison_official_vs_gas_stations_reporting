@@ -1,0 +1,5 @@
+# python_version recommanded: 3_11
+flask
+flask_cors
+# werkzeug==2.3.7
+Flask-APScheduler
