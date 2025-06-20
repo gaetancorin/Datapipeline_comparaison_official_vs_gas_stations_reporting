@@ -3,29 +3,16 @@ from flask_cors import CORS
 from flask_apscheduler import APScheduler
 from datetime import datetime
 import time
-import os
 import logging
 # from App.utils import *
 import App.utils as utils
+import App.lockfile as lockfile
 import App.specific_functions as specific_functions
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 CORS(app)
 scheduler = APScheduler()
-
-def acquire_lock(lockfile):
-    """Acquire a lock on the specified file."""
-    try:
-        fd = os.open(lockfile, os.O_CREAT | os.O_EXCL | os.O_RDWR)
-        return fd
-    except FileExistsError:
-        return None
-
-def release_lock(fd,lockfile):
-    """Release the lock."""
-    os.close(fd)
-    os.remove(lockfile)
 
 
 @app.route('/test', methods=["GET"])
@@ -47,8 +34,8 @@ def test3():
                 day_of_week='*', hour='*', minute='*', second=0)
 @app.route('/test4', methods=["GET"])
 def testscheduler():
-    lockfile = './FILE_ONLY_FOR_LOCK.lock'
-    fd = acquire_lock(lockfile)
+    lockfile_name = './LOCKFILE_testscheduler.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
     if fd is None:
         print(f"Job is already running. Skipping execution at {datetime.now()}")
         return {'message': 'Job already running'}, 200
@@ -59,4 +46,4 @@ def testscheduler():
         print("scheduler done")
         return {'message': name}
     finally:
-        release_lock(fd,lockfile)
+        lockfile.release_lock(fd,lockfile_name)
