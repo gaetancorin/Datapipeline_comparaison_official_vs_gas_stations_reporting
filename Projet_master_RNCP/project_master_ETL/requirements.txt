@@ -4,3 +4,7 @@ flask_cors
 # werkzeug==2.3.7
 Flask-APScheduler
 python-dotenv
+pandas
+pymongo
+requests
+scipy

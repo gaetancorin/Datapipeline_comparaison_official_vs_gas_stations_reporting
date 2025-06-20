@@ -1,26 +1,29 @@
-/launch_complete_pipeline_oil_prices
-    /launch_etl_gas_stations_oil_prices
-        extract_gas_stations_oil_prices()
-            get_last_mongo_data_dates()
-            extract_new_gas_stations_oil_prices()
+Architecture APIs et Fonctions:
+
+/etl/launch_complete_pipeline_oil_prices
+    /etl/launch_etl_gas_stations_oil_prices
+        determine_dates_to_load_from_mongo()
+        extract_new_gas_stations_oil_prices()
         transform_gas_stations_oil_prices()
-        load_gas_stations_oil_prices()
-    /launch_etl_official_oil_prices
+        load_gas_stations_oil_prices_to_mongo()
+    /etl/launch_etl_official_oil_prices
         extract_official_oil_prices()
             get_last_mongo_data_dates()
             extract_new_official_oil_prices()
         transform_official_oil_prices()
-        load_official_oil_prices()
-    /prepare_gas_station_prices_for_dataviz()
+        load_official_oil_prices_to_mongo()
+    /dataviz/prepare_gas_station_prices_for_dataviz()
         get_last_prepared_dates()
         process_new_gas_station_oils_prices()
         load_denormalized_gas_station_data()
-    /merge_official_and_station_oils_prices()
+    /dataviz/merge_official_and_station_oils_prices()
         get_last_mongo_merge_data_dates()
         process_new_data_to_merge()
         load_new_merged_data()
-/save_mongo_dump_to_S3
-/load_mongo_dump_from_S3
+/mongo/save_mongo_dump_to_S3
+/mongo/load_mongo_dump_from_S3
+/mongo/clean_all_collections
+/mongo/clean_one_collection
 
 
 --- Point de questionnement ---
