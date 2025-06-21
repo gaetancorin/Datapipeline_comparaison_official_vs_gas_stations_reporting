@@ -13,21 +13,21 @@ import App.mongo_manager as mongo_manager
 
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 
-def launch_etl_gas_stations_oil_prices(year_to_load = None, drop_mongo_collections = None):
+def launch_etl_gas_stations_oils_prices(year_to_load = None, drop_mongo_collections = None):
     print("[INFO] Start launch_etl_gas_stations_oil_prices")
     if year_to_load != None and int(year_to_load) < 2007:
-        print(f"[WARNING] {year_to_load} 'year_to_load' parameter is < 2007, so data is not available at this date for gas_stations_oil_prices")
+        print(f"[WARNING] {year_to_load} 'year_to_load' parameter is < 2007, so data is not available at this date for gas_stations_oils_prices")
         return "done"
     if drop_mongo_collections == "true":
         print("[INFO] Drop Mongo collections")
         mongo_manager.drop_mongo_collections(bdd = "datalake", collections= ["gas_stations_infos", "gas_stations_price_logs_eur"])
     start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "datalake", collection= "gas_stations_price_logs_eur")
-    extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load)
-    transform_gas_stations_oil_prices()
-    load_gas_stations_oil_prices_to_mongo()
+    extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load)
+    transform_gas_stations_oils_prices()
+    load_gas_stations_oils_prices_to_mongo()
 
 
-def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
+def extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
     print("[INFO] Start extract_new_gas_stations_oil_prices")
     start_year = start_date_to_load.year
     end_year = end_date_to_load.year
@@ -38,9 +38,9 @@ def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
     if os.path.exists("outputs/xml_gas_stations"):
         shutil.rmtree("outputs/xml_gas_stations")
     os.makedirs("outputs/xml_gas_stations", exist_ok=True)
-    if os.path.exists("outputs/gas_stations"):
-        shutil.rmtree("outputs/gas_stations")
-    os.makedirs("outputs/gas_stations", exist_ok=True)
+    if os.path.exists("outputs/original_gas_stations"):
+        shutil.rmtree("outputs/original_gas_stations")
+    os.makedirs("outputs/original_gas_stations", exist_ok=True)
 
     # Loading targeting datas
     for year in years_to_load:
@@ -109,25 +109,25 @@ def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
         df['valeur'] = df['valeur'] * 1000 if int(year) > 2021 else df['valeur']
 
         # Save df to csv
-        df.to_csv(f"outputs/gas_stations/PrixCarburants_annuel_{year}.csv", index=False)
+        df.to_csv(f"outputs/original_gas_stations/PrixCarburants_annuel_{year}.csv", index=False)
         print(df.head(5))
         print("END LOAD", year)
     print("END LOAD", years_to_load)
     return "done"
 
-def transform_gas_stations_oil_prices():
-    print("[INFO] Start transform_gas_stations_oil_prices")
+def transform_gas_stations_oils_prices():
+    print("[INFO] Start transform_gas_stations_oils_prices")
 
     # clean working csv folder and recreate it
     if os.path.exists("outputs/filtered_gas_stations"):
         shutil.rmtree("outputs/filtered_gas_stations")
     os.makedirs("outputs/filtered_gas_stations", exist_ok=True)
 
-    files_names = os.listdir("outputs/gas_stations")
+    files_names = os.listdir("outputs/original_gas_stations")
     print(files_names)
     for file_name in files_names:
         print("Transform", file_name)
-        file_path = f"outputs/gas_stations/{file_name}"
+        file_path = f"outputs/original_gas_stations/{file_name}"
         year = file_name.split("_")[-1].split(".")[0]
         if not os.path.exists(file_path):
             print(f"{file_path} file not exist.")
@@ -176,7 +176,7 @@ def transform_gas_stations_oil_prices():
     print("END LOAD", files_names)
     return "done"
 
-def load_gas_stations_oil_prices_to_mongo():
+def load_gas_stations_oils_prices_to_mongo():
     print("[INFO] Start load_gas_stations_oil_prices_to_mongo")
 
     # clean working csv folder and recreate it

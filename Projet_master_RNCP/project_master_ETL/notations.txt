@@ -11,19 +11,32 @@ Architecture APIs et Fonctions:
         extract_new_official_oils_prices()
         transform_official_oils_prices()
         load_official_oils_prices_to_mongo()
-    (dataviz)/prepare_gas_station_prices_for_dataviz()
+    /dataviz/denormalize_station_prices_for_dataviz()
         determine_dates_to_load_from_mongo()
-        process_new_gas_station_oils_prices()
-        transform_denormalized_gas_station_oils_prices()
-        load_denormalized_gas_station_data()
-    /dataviz/merge_official_and_station_oils_prices()
-        get_last_mongo_merge_data_dates()
-        process_new_data_to_merge()
-        load_new_merged_data()
+        extract_new_station_prices_from_mongo()
+        transform_and_denormalize_station_prices()
+        load_denormalized_station_prices()
+    /dataviz/merge_official_and_denormalized_station_prices()
+        determine_dates_to_load_from_mongo()
+        extract_new_official_oils_prices_from_mongo()
+        extract_new_denorm_station_prices_from_mongo()
+        transform_merge_official_and_denorm_station_prices()
+        load_merged_station_vs_official_prices()
 /mongo/save_mongo_dump_to_S3
 /mongo/load_mongo_dump_from_S3
 /mongo/clean_all_collections
 /mongo/clean_one_collection
+
+Mongo bdd et collections:
+
+datalake:
+    gas_stations_infos
+    gas_stations_price_logs_eur
+    official_oils_prices (official_ttc_gas_eur_liter)
+denormalization:
+    denormalized_station_prices (station_ttc_gas_eur_liter)
+    denormalized_station_vs_official_prices
+    (all_ttc_gas_eur_liter)
 
 
 --- Point de questionnement ---

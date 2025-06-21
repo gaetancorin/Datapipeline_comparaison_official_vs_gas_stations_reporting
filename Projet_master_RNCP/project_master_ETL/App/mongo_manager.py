@@ -1,5 +1,6 @@
 import pymongo
 import os
+import pandas as pd
 from dotenv import load_dotenv
 from pymongo import ReplaceOne
 
@@ -19,7 +20,7 @@ client_mongo = pymongo.MongoClient(
     authSource=AUTH_DB
 )
 
-def get_last_data_dates_of_one_collection(db_name, collection):
+def get_last_data_date_from_one_collection(db_name, collection):
     db_mongo = client_mongo.get_database(db_name)
     if collection not in db_mongo.list_collection_names():
         print(f"[INFO] Collection '{collection}' not exist in mongo BDD '{db_name}'")
@@ -77,6 +78,35 @@ def load_datas_to_mongo(df, bdd, collection, index=None):
     records = df.to_dict(orient="records")
     collection_mongo.insert_many(records)
     return "done"
+
+
+def get_filtered_datas_from_one_collection(start_date_to_load, end_date_to_load, db_name, collection):
+    db_mongo = client_mongo.get_database(db_name)
+    if collection not in db_mongo.list_collection_names():
+        print(f"[INFO] Collection '{collection}' not exist in mongo BDD '{db_name}'")
+        return None
+    collection_mongo = db_mongo.get_collection(collection)
+    cursor = collection_mongo.find(
+        {
+            "Date": {"$gte": start_date_to_load, "$lt": end_date_to_load}
+        },{}
+    )
+    df = pd.DataFrame(list(cursor))
+    return df
+
+
+    # Research last date existing in collection
+    latest_row = collection_mongo.find_one(
+        {"Date": {"$exists": True}},
+        sort=[("Date", -1)]
+    )
+    if latest_row and "Date" in latest_row:
+        latest_date = latest_row["Date"]
+        print(f"[INFO] Found last date '{latest_date}' into '{collection}' collection")
+        return latest_date
+    else:
+        print(f"[INFO] Not found row with 'Date' inside '{collection}' collection")
+        return None
 
 
 
