@@ -25,6 +25,7 @@ def launch_etl_gas_stations_oils_prices(year_to_load = None, drop_mongo_collecti
     extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load)
     transform_gas_stations_oils_prices()
     load_gas_stations_oils_prices_to_mongo()
+    return "done"
 
 
 def extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
@@ -32,7 +33,7 @@ def extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
     start_year = start_date_to_load.year
     end_year = end_date_to_load.year
     years_to_load = list(range(start_year, end_year + 1))
-    years_to_load = ["2007", "2008"]
+    # years_to_load = ["2007", "2008"]
 
     # clean working xml/csv folders and recreate it
     if os.path.exists("outputs/xml_gas_stations"):
