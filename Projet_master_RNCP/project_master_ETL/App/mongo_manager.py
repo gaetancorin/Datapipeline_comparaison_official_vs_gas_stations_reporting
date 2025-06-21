@@ -19,10 +19,10 @@ client_mongo = pymongo.MongoClient(
     authSource=AUTH_DB
 )
 
-def get_last_data_dates_of_one_collection(bdd, collection):
-    db_mongo = client_mongo.get_database(bdd)
+def get_last_data_dates_of_one_collection(db_name, collection):
+    db_mongo = client_mongo.get_database(db_name)
     if collection not in db_mongo.list_collection_names():
-        print(f"[INFO]  Collection '{collection}' not exist in mongo BDD '{bdd}'")
+        print(f"[INFO] Collection '{collection}' not exist in mongo BDD '{db_name}'")
         return None
     collection_mongo = db_mongo.get_collection(collection)
     # Research last date existing in collection
@@ -38,9 +38,10 @@ def get_last_data_dates_of_one_collection(bdd, collection):
         print(f"[INFO] Not found row with 'Date' inside '{collection}' collection")
         return None
 
-def update_gas_stations_infos(gas_stations_infos, bdd, collection):
-    db_mongo = client_mongo.get_database(bdd)
+def update_gas_stations_infos(gas_stations_infos, db_name, collection):
+    db_mongo = client_mongo.get_database(db_name)
     collection_mongo = db_mongo.get_collection(collection)
+    collection_mongo.create_index([("Id_station_essence", pymongo.ASCENDING), ("Cp", pymongo.ASCENDING)])
 
     # Replace gas_station_infos row only if Id_station_essence matches and row's Last_update is more recent than in Mongo.
     # If no matching Id_station_essence exists, insert the row.
@@ -63,9 +64,16 @@ def update_gas_stations_infos(gas_stations_infos, bdd, collection):
     print("correctly update gas_station_infos datas to MongoDB")
 
 
-def load_datas_to_mongo(df, bdd, collection):
+def load_datas_to_mongo(df, bdd, collection, index=None):
     db_mongo = client_mongo.get_database(bdd)
     collection_mongo = db_mongo.get_collection(collection)
+
+    if index != None:
+        formated_index = []
+        for col in index:
+            formated_index.append((col, pymongo.ASCENDING))
+        collection_mongo.create_index(formated_index)
+
     records = df.to_dict(orient="records")
     collection_mongo.insert_many(records)
     return "done"

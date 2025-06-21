@@ -8,3 +8,4 @@ pandas
 pymongo
 requests
 scipy
+openpyxl

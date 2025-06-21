@@ -15,12 +15,15 @@ warnings.filterwarnings('ignore', category=RuntimeWarning)
 
 def launch_etl_gas_stations_oil_prices(year_to_load = None, drop_mongo_collections = None):
     print("[INFO] Start launch_etl_gas_stations_oil_prices")
-    start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, bdd= "datalake", collection= "gas_stations_price_logs_eur")
-    # extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load)
-    # transform_gas_stations_oil_prices()
+    if year_to_load != None and int(year_to_load) < 2007:
+        print(f"[WARNING] {year_to_load} 'year_to_load' parameter is < 2007, so data is not available at this date for gas_stations_oil_prices")
+        return "done"
     if drop_mongo_collections == "true":
         print("[INFO] Drop Mongo collections")
         mongo_manager.drop_mongo_collections(bdd = "datalake", collections= ["gas_stations_infos", "gas_stations_price_logs_eur"])
+    start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "datalake", collection= "gas_stations_price_logs_eur")
+    extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load)
+    transform_gas_stations_oil_prices()
     load_gas_stations_oil_prices_to_mongo()
 
 
@@ -32,12 +35,12 @@ def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
     years_to_load = ["2007", "2008"]
 
     # clean working xml/csv folders and recreate it
-    if os.path.exists("inputs/xml_gas_stations"):
-        shutil.rmtree("inputs/xml_gas_stations")
-    os.makedirs("inputs/xml_gas_stations", exist_ok=True)
-    if os.path.exists("inputs/gas_stations"):
-        shutil.rmtree("inputs/gas_stations")
-    os.makedirs("inputs/gas_stations", exist_ok=True)
+    if os.path.exists("outputs/xml_gas_stations"):
+        shutil.rmtree("outputs/xml_gas_stations")
+    os.makedirs("outputs/xml_gas_stations", exist_ok=True)
+    if os.path.exists("outputs/gas_stations"):
+        shutil.rmtree("outputs/gas_stations")
+    os.makedirs("outputs/gas_stations", exist_ok=True)
 
     # Loading targeting datas
     for year in years_to_load:
@@ -54,11 +57,11 @@ def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
 
         # save original xml file in local
         with zipfile.ZipFile(io.BytesIO(response.content), 'r') as zip_ref:
-            zip_ref.extractall("inputs/xml_gas_stations")
+            zip_ref.extractall("outputs/xml_gas_stations")
         print(file_name, "extracted")
 
         # transform xml to df
-        tree = ET.parse(f"inputs/xml_gas_stations/PrixCarburants_annuel_{year}.xml")
+        tree = ET.parse(f"outputs/xml_gas_stations/PrixCarburants_annuel_{year}.xml")
         root = tree.getroot()
         data = []
         for pdv in root.findall("pdv"):
@@ -106,25 +109,25 @@ def extract_new_gas_stations_oil_prices(start_date_to_load, end_date_to_load):
         df['valeur'] = df['valeur'] * 1000 if int(year) > 2021 else df['valeur']
 
         # Save df to csv
-        df.to_csv(f"inputs/gas_stations/PrixCarburants_annuel_{year}.csv", index=False)
+        df.to_csv(f"outputs/gas_stations/PrixCarburants_annuel_{year}.csv", index=False)
         print(df.head(5))
         print("END LOAD", year)
     print("END LOAD", years_to_load)
-    return "ok"
+    return "done"
 
 def transform_gas_stations_oil_prices():
     print("[INFO] Start transform_gas_stations_oil_prices")
 
     # clean working csv folder and recreate it
-    if os.path.exists("inputs/filtered_gas_stations"):
-        shutil.rmtree("inputs/filtered_gas_stations")
-    os.makedirs("inputs/filtered_gas_stations", exist_ok=True)
+    if os.path.exists("outputs/filtered_gas_stations"):
+        shutil.rmtree("outputs/filtered_gas_stations")
+    os.makedirs("outputs/filtered_gas_stations", exist_ok=True)
 
-    files_names = os.listdir("inputs/gas_stations")
+    files_names = os.listdir("outputs/gas_stations")
     print(files_names)
     for file_name in files_names:
         print("Transform", file_name)
-        file_path = f"inputs/gas_stations/{file_name}"
+        file_path = f"outputs/gas_stations/{file_name}"
         year = file_name.split("_")[-1].split(".")[0]
         if not os.path.exists(file_path):
             print(f"{file_path} file not exist.")
@@ -167,28 +170,28 @@ def transform_gas_stations_oil_prices():
             df_prices_filtered.columns = [col.capitalize() for col in df_prices_filtered.columns]
 
             # Save df to csv
-            df_prices_filtered.to_csv(f"inputs/filtered_gas_stations/PrixCarburants_annuel_filtered_{year}.csv", index=False)
+            df_prices_filtered.to_csv(f"outputs/filtered_gas_stations/PrixCarburants_annuel_filtered_{year}.csv", index=False)
             print(df_prices_filtered.head(5))
             print("END LOAD", year)
     print("END LOAD", files_names)
-    return "ok"
+    return "done"
 
 def load_gas_stations_oil_prices_to_mongo():
     print("[INFO] Start load_gas_stations_oil_prices_to_mongo")
 
     # clean working csv folder and recreate it
-    if os.path.exists("inputs/gas_stations_infos"):
-        shutil.rmtree("inputs/gas_stations_infos")
-    os.makedirs("inputs/gas_stations_infos", exist_ok=True)
-    if os.path.exists("inputs/gas_stations_price_logs_eur"):
-        shutil.rmtree("inputs/gas_stations_price_logs_eur")
-    os.makedirs("inputs/gas_stations_price_logs_eur", exist_ok=True)
+    if os.path.exists("outputs/gas_stations_infos"):
+        shutil.rmtree("outputs/gas_stations_infos")
+    os.makedirs("outputs/gas_stations_infos", exist_ok=True)
+    if os.path.exists("outputs/gas_stations_price_logs_eur"):
+        shutil.rmtree("outputs/gas_stations_price_logs_eur")
+    os.makedirs("outputs/gas_stations_price_logs_eur", exist_ok=True)
 
-    files_names = os.listdir("inputs/filtered_gas_stations")
+    files_names = os.listdir("outputs/filtered_gas_stations")
     print(files_names)
     for file_name in files_names:
         print("Load", file_name)
-        file_path = f"inputs/filtered_gas_stations/{file_name}"
+        file_path = f"outputs/filtered_gas_stations/{file_name}"
         year = file_name.split("_")[-1].split(".")[0]
         if not os.path.exists(file_path):
             print(f"{file_path} file not exist.")
@@ -206,21 +209,21 @@ def load_gas_stations_oil_prices_to_mongo():
             df_gas_stations = df_gas_stations.rename(columns={"Date": "Derniere_maj"})
             print('gas_stations_infos \n', df_gas_stations.head(5))
             # Save df to csv
-            df_gas_stations.to_csv(f"inputs/gas_stations_infos/gas_stations_infos_{year}.csv",index=False)
+            df_gas_stations.to_csv(f"outputs/gas_stations_infos/gas_stations_infos_{year}.csv",index=False)
             # Save df to Mongo
-            mongo_manager.update_gas_stations_infos(df_gas_stations, bdd= "datalake", collection= "gas_stations_infos")
+            mongo_manager.update_gas_stations_infos(df_gas_stations, db_name= "datalake", collection= "gas_stations_infos")
 
 
             # add gas_stations_price_logs
             df_gas_stations_price_logs = df[['Date', 'Id_station_essence', 'Nom', 'Valeur', 'Heuremin']]
             print('gas_station_prices_logs \n', df_gas_stations_price_logs.head(5))
             # Save df to csv
-            df_gas_stations_price_logs.to_csv(f"inputs/gas_stations_price_logs_eur/gas_station_prices_logs_eur_{year}.csv", index=False)
+            df_gas_stations_price_logs.to_csv(f"outputs/gas_stations_price_logs_eur/gas_station_prices_logs_eur_{year}.csv", index=False)
             # Save df to Mongo
-            result = mongo_manager.load_datas_to_mongo(df_gas_stations_price_logs, bdd= "datalake", collection= "gas_stations_price_logs_eur")
+            result = mongo_manager.load_datas_to_mongo(df_gas_stations_price_logs, bdd= "datalake", collection= "gas_stations_price_logs_eur", index= ["Date", "Nom"])
             if result:
                 print("correctly loaded", file_name, "on mongo collection 'gas_stations_price_logs_eur'")
 
         print("END LOAD", file_name)
     print("END LOAD", files_names)
-    return "ok"
+    return "done"
