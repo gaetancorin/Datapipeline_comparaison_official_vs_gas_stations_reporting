@@ -9,3 +9,4 @@ pymongo
 requests
 scipy
 openpyxl
+boto3

@@ -1,8 +1,6 @@
 from flask import *
 from flask_cors import CORS
 from flask_apscheduler import APScheduler
-from dotenv import load_dotenv
-import os
 from datetime import datetime
 import logging
 import App.lockfile as lockfile
@@ -10,13 +8,8 @@ import App.gas_stations_oils_prices as gas_stations_oils_prices
 import App.official_oils_prices as official_oils_prices
 import App.denormalize_station_prices as denorm_station_prices
 import App.denorm_station_vs_official_prices as denorm_station_vs_official_prices
-
-# Load environment variables from the .env file
-load_dotenv('env/.env')
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_REGION = os.getenv('AWS_REGION')
-BUCKET_NAME = os.getenv('BUCKET_NAME')
+import App.utils as utils
+import App.S3_manager as S3_manager
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
@@ -104,6 +97,82 @@ def api_merge_denorm_station_vs_official_prices():
         year_to_load = request.form.get('year_to_load')
         drop_mongo_collections = request.form.get('drop_mongo_collections')
         denorm_station_vs_official_prices.merge_denorm_station_vs_official_prices(year_to_load, drop_mongo_collections)
+        return "done"
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/mongo/drop_one_collection', methods=["POST"])
+def api_drop_one_collection():
+    lockfile_name = './LOCKFILE_api_drop_one_collection.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        db_name = request.form.get('db_name')
+        collection_name = request.form.get('collection_name')
+        result = utils.drop_one_collection_to_mongo(db_name, collection_name)
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/mongo/drop_one_bdd', methods=["POST"])
+def api_drop_one_bdd():
+    lockfile_name = './LOCKFILE_api_drop_one_bdd.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        db_name = request.form.get('db_name')
+        result = utils.drop_one_bdd_to_mongo(db_name)
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/utils/save_mongo_dump_to_S3', methods=["POST"])
+def api_save_mongo_dump_to_S3():
+    lockfile_name = './LOCKFILE_save_mongo_dump_to_S3.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        db_name = request.form.get('db_name')
+        utils.save_mongo_dump_to_S3(db_name)
+        return "done"
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/utils/list_S3_contents', methods=["POST"])
+def api_list_S3_contents():
+    lockfile_name = './LOCKFILE_list_S3_contents.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        result = S3_manager.list_S3_contents()
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/utils/restore_mongo_dump_from_S3', methods=["POST"])
+def api_restore_mongo_dump_from_S3():
+    lockfile_name = './LOCKFILE_restore_mongo_dump_from_S3.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        zip_name = request.form.get('zip_name')
+        new_bdd_name = request.form.get('new_bdd_name')
+        utils.restore_mongo_dump_from_S3(zip_name, new_bdd_name)
         return "done"
     finally:
         lockfile.release_lock(fd, lockfile_name)

@@ -22,12 +22,13 @@ Architecture APIs et Fonctions:
         extract_new_official_oils_prices_from_mongo()
         transform_merge_station_vs_official_prices()
         load_denorm_station_vs_official_prices()
-/mongo/save_mongo_dump_to_S3
-/mongo/load_mongo_dump_from_S3
-/mongo/clean_all_collections
-/mongo/clean_one_collection
+/mongo/drop_one_collection
+/mongo/drop_one_bdd
+/utils/save_mongo_dump_to_S3
+/utils/list_S3_contents
+/utils/restore_mongo_dump_from_S3
 
-Mongo bdd et collections:
+Mongo db_name et collections:
 
 datalake:
     gas_stations_infos
@@ -36,22 +37,3 @@ datalake:
 denormalization:
     denorm_station_prices (station_ttc_gas_eur_liter)
     denorm_station_vs_official_prices (all_ttc_gas_eur_liter)
-
-
---- Point de questionnement ---
-* get_last_mongo_data: que se passe il si la connexion mongo ne marche pas ? si la bdd/la collection n existe pas ?
-
-* extract_missing_datas:
-ou sont stocker les csv en attente de traitement ? en local dans inputs ?
-
-transform_datas_gas_station:
-recupérer les csv dans input ?
-stocker les csv transformé dans inputs ?
-
-Comment les fonctions savent quel fichiers elles doivent récupérer ?
-Soit un clean des fichiers a la fin, soit une sauvegarde des fichiers traités
-
-* denormalize_gas_station_prices:
-* merge_official_and_station_prices:
-Comment ils font pour savoir les dernières données ? Ou ils reconstruissent tout ?
-en allant voir sur Mongo !

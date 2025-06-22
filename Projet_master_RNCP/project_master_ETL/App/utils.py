@@ -1,5 +1,9 @@
 import pandas as pd
+import os
+import shutil
+from datetime import datetime
 import App.mongo_manager as mongo_manager
+import App.S3_manager as S3_manager
 
 def determine_dates_to_load_from_mongo(year_to_load, db_name, collection):
     if year_to_load:
@@ -21,3 +25,94 @@ def determine_dates_to_load_from_mongo(year_to_load, db_name, collection):
                 start_date_to_load = pd.to_datetime("1985-01-01")
         end_date_to_load = pd.Timestamp.today().normalize()
     return start_date_to_load, end_date_to_load
+
+
+def drop_one_collection_to_mongo(db_name, collection_name):
+    if db_name == None:
+        print(f"[WARNING] db_name variable is empty")
+        return "db_name variable is empty"
+    db_name_exist = mongo_manager.does_database_exist(db_name)
+    if not db_name_exist:
+        print(f"[WARNING] db_name {db_name} does not exist on Mongo")
+        return f"db_name {db_name} does not exist on Mongo"
+    if collection_name == None:
+        print(f"[WARNING] collection_name variable is empty")
+        return "collection_name variable is empty"
+    collection_name_exist = mongo_manager.does_collection_name_exist(db_name, collection_name)
+    if not collection_name_exist:
+        print(f"[WARNING] collection_name {collection_name} does not exist on {db_name} bdd Mongo")
+        return f"collection_name {collection_name} does not exist on {db_name} bdd Mongo"
+    mongo_manager.drop_mongo_collections(db_name, [collection_name])
+    return "done"
+
+
+def drop_one_bdd_to_mongo(db_name):
+    if db_name == None:
+        print(f"[WARNING] db_name variable is empty")
+        return "db_name variable is empty"
+    db_name_exist = mongo_manager.does_database_exist(db_name)
+    if not db_name_exist:
+        print(f"[WARNING] db_name {db_name} does not exist on Mongo")
+        return f"db_name {db_name} does not exist on Mongo"
+    mongo_manager.drop_mongo_bdd(db_name)
+    return "done"
+
+
+def save_mongo_dump_to_S3(db_name):
+    if db_name == None:
+        print(f"[WARNING] db_name variable is empty")
+        return "db_name variable is empty"
+    db_name_exist = mongo_manager.does_database_exist(db_name)
+    if not db_name_exist:
+        print(f"[WARNING] db_name {db_name} does not exist on Mongo")
+        return f"db_name {db_name} does not exist on Mongo"
+
+    # clean working mongo_dump folder and recreate it
+    if os.path.exists("outputs/mongo_dump"):
+        shutil.rmtree("outputs/mongo_dump")
+    os.makedirs("outputs/mongo_dump", exist_ok=True)
+
+    str_current_date = datetime.now().strftime("%Y_%m_%d")
+    folder_to_zip = "outputs/mongo_dump/"+ db_name +"_"+str_current_date
+    # create mongo dump
+    mongo_manager.mongodump(db_name, out_path=folder_to_zip)
+    # zip the dump
+    zip_path = compress_mongo_dump_to_zip(folder_to_zip, db_name)
+    # load to S3
+    S3_manager.upload_file_to_s3(file_path=zip_path)
+    return "done"
+
+
+def compress_mongo_dump_to_zip(folder_to_zip, db_name):
+    if not os.path.exists(folder_to_zip):
+        print(f"[ERROR]: Dump folder for '{db_name}' not found at {folder_to_zip}")
+
+    shutil.make_archive(folder_to_zip, 'zip', folder_to_zip)
+    print(f"[INFO] Success zip the dump: {folder_to_zip}.zip")
+    # Remove the uncompressed dump folder
+    shutil.rmtree(folder_to_zip)
+    print(f"[INFO] Removed original uncompressed dump folder: {folder_to_zip}")
+    return folder_to_zip + ".zip"
+
+
+def restore_mongo_dump_from_S3(zip_name, new_bdd_name):
+    os.makedirs("outputs/mongo_dump", exist_ok=True)
+    # download zip to S3
+    S3_manager.download_file_from_s3_to_path(zip_name, out_path="outputs/mongo_dump")
+    # dezip mongo dump
+    dump_folder_path, old_db_name = decompress_zip_to_mongo_dump(zip_name)
+    # restore bdd in mongo
+    mongo_manager.mongorestore(dump_folder_path, old_db_name, new_bdd_name)
+    return "done"
+
+
+def decompress_zip_to_mongo_dump(zip_name, dump_folder="outputs/mongo_dump"):
+    zip_path = os.path.join(dump_folder, zip_name)
+    if not os.path.exists(zip_path):
+        print(f"[ERROR]: Zip file for '{zip_name}' not found at {zip_path}")
+    folder_path = os.path.join(dump_folder, zip_name.split(".zip")[0])
+    shutil.unpack_archive(zip_path, folder_path)
+    # Remove the zip dump file
+    os.remove(zip_path)
+    old_db_name = "_".join(zip_name.split("_")[:-3])
+    return folder_path, old_db_name

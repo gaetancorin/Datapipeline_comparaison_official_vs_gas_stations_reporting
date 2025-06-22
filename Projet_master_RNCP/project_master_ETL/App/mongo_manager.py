@@ -1,6 +1,7 @@
 import pymongo
 import os
 import pandas as pd
+import subprocess
 from dotenv import load_dotenv
 from pymongo import ReplaceOne
 
@@ -19,6 +20,16 @@ client_mongo = pymongo.MongoClient(
     password=MONGO_PASSWORD,
     authSource=AUTH_DB
 )
+
+
+def build_mongo_uri(db_name=None):
+    base_uri = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"
+    if db_name:
+        base_uri += f"/{db_name}?authSource={AUTH_DB}"
+    else:
+        base_uri += f"/?authSource={AUTH_DB}"
+    return base_uri
+
 
 def get_last_data_date_from_one_collection(db_name, collection):
     db_mongo = client_mongo.get_database(db_name)
@@ -95,19 +106,17 @@ def get_filtered_datas_from_one_collection(start_date_to_load, end_date_to_load,
     return df
 
 
-    # Research last date existing in collection
-    latest_row = collection_mongo.find_one(
-        {"Date": {"$exists": True}},
-        sort=[("Date", -1)]
-    )
-    if latest_row and "Date" in latest_row:
-        latest_date = latest_row["Date"]
-        print(f"[INFO] Found last date '{latest_date}' into '{collection}' collection")
-        return latest_date
-    else:
-        print(f"[INFO] Not found row with 'Date' inside '{collection}' collection")
-        return None
+def does_database_exist(database_name):
+    return database_name in client_mongo.list_database_names()
 
+
+def does_collection_name_exist(database_name, collection_name):
+    db_mongo = client_mongo.get_database(database_name)
+    return collection_name in db_mongo.list_collection_names()
+
+
+def drop_mongo_bdd(db_name):
+    client_mongo.drop_database(db_name)
 
 
 def drop_mongo_collections(bdd, collections):
@@ -115,3 +124,30 @@ def drop_mongo_collections(bdd, collections):
     for collection in collections:
         print(f"[INFO] Into Mongo, drop '{collection.upper()}' collection in '{bdd.upper()}' bdd")
         db_mongo.drop_collection(collection)
+
+
+def mongodump(db_name, out_path):
+    uri = build_mongo_uri(db_name)
+    cmd = ['mongodump', '--uri', uri, '--out', out_path]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode == 0:
+        print(f"[INFO] Dump '{db_name.upper()}' database success in {out_path}")
+    else:
+        print("[ERROR]:", result.stderr)
+
+
+def mongorestore(dump_path, old_db_name, new_db_name):
+    print(f"[INFO] Starting restore old dump db '{old_db_name}' into new db '{new_db_name}'")
+    uri = build_mongo_uri()
+    cmd = [
+        'mongorestore',
+        '--uri', uri,
+        f'--nsFrom={old_db_name}.*',
+        f'--nsTo={new_db_name}.*',
+        dump_path
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode == 0:
+        print(f"[INFO] Successfully restored old dump db '{old_db_name}' into new db '{new_db_name}'")
+    else:
+        print("[ERROR]:", result.stderr)
