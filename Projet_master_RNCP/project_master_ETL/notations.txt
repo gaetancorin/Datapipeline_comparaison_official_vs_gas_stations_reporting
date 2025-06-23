@@ -27,6 +27,7 @@ Architecture APIs et Fonctions:
 /utils/save_mongo_dump_to_S3
 /utils/list_S3_contents
 /utils/restore_mongo_dump_from_S3
+/is_alive
 
 Mongo db_name et collections:
 

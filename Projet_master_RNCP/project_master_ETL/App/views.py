@@ -16,6 +16,10 @@ app = Flask(__name__)
 CORS(app)
 scheduler = APScheduler()
 
+@app.route('/is_alive', methods=["GET"])
+def api_is_alive():
+    return "alive"
+
 @app.route('/etl/launch_complete_pipeline_oil_prices', methods=["POST"])
 def api_launch_complete_pipeline_oil_prices():
     lockfile_name = './LOCKFILE_launch_complete_pipeline_oil_prices.lock'
