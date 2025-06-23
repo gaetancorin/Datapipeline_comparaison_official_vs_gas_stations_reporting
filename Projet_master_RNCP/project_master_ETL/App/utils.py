@@ -60,26 +60,32 @@ def drop_one_bdd_to_mongo(db_name):
 
 def save_mongo_dump_to_S3(db_name):
     if db_name == None:
-        print(f"[WARNING] db_name variable is empty")
-        return "db_name variable is empty"
-    db_name_exist = mongo_manager.does_database_exist(db_name)
-    if not db_name_exist:
-        print(f"[WARNING] db_name {db_name} does not exist on Mongo")
-        return f"db_name {db_name} does not exist on Mongo"
+        print(f"[WARNING] 'db_name' variable is empty — using default database names: 'datalake' and 'denormalization'.")
+        db_names = ["datalake", "denormalization"]
+    elif not isinstance(db_name, list):
+        db_names = [db_name]
+    else:
+        db_names = db_name
 
-    # clean working mongo_dump folder and recreate it
-    if os.path.exists("outputs/mongo_dump"):
-        shutil.rmtree("outputs/mongo_dump")
-    os.makedirs("outputs/mongo_dump", exist_ok=True)
+    for db_name in db_names:
+        db_name_exist = mongo_manager.does_database_exist(db_name)
+        if not db_name_exist:
+            print(f"[WARNING] db_name {db_name} does not exist on Mongo")
+            return f"db_name {db_name} does not exist on Mongo"
 
-    str_current_date = datetime.now().strftime("%Y_%m_%d")
-    folder_to_zip = "outputs/mongo_dump/"+ db_name +"_"+str_current_date
-    # create mongo dump
-    mongo_manager.mongodump(db_name, out_path=folder_to_zip)
-    # zip the dump
-    zip_path = compress_mongo_dump_to_zip(folder_to_zip, db_name)
-    # load to S3
-    S3_manager.upload_file_to_s3(file_path=zip_path)
+        # clean working mongo_dump folder and recreate it
+        if os.path.exists("outputs/mongo_dump"):
+            shutil.rmtree("outputs/mongo_dump")
+        os.makedirs("outputs/mongo_dump", exist_ok=True)
+
+        str_current_date = datetime.now().strftime("%Y_%m_%d")
+        folder_to_zip = "outputs/mongo_dump/"+ db_name +"_"+str_current_date
+        # create mongo dump
+        mongo_manager.mongodump(db_name, out_path=folder_to_zip)
+        # zip the dump
+        zip_path = compress_mongo_dump_to_zip(folder_to_zip, db_name)
+        # load to S3
+        S3_manager.upload_file_to_s3(file_path=zip_path)
     return "done"
 
 

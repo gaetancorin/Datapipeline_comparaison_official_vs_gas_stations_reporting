@@ -16,10 +16,15 @@ app = Flask(__name__)
 CORS(app)
 scheduler = APScheduler()
 
+
 @app.route('/is_alive', methods=["GET"])
 def api_is_alive():
+    print("[INFO] alive")
     return "alive"
 
+
+# Scheduler is working each day at 10hour
+@scheduler.task('cron', id='complete_pipeline_oil_prices',year='*', month='*', day='*', week='*', day_of_week='*', hour='10', minute='0', second='0')
 @app.route('/etl/launch_complete_pipeline_oil_prices', methods=["POST"])
 def api_launch_complete_pipeline_oil_prices():
     lockfile_name = './LOCKFILE_launch_complete_pipeline_oil_prices.lock'
@@ -137,6 +142,8 @@ def api_drop_one_bdd():
         lockfile.release_lock(fd, lockfile_name)
 
 
+# Scheduler is working each day at 13hour
+@scheduler.task('cron', id='save_mongo_dump_to_S3',year='*', month='*', day='*', week='*', day_of_week='*', hour='13', minute='0', second='0')
 @app.route('/utils/save_mongo_dump_to_S3', methods=["POST"])
 def api_save_mongo_dump_to_S3():
     lockfile_name = './LOCKFILE_save_mongo_dump_to_S3.lock'

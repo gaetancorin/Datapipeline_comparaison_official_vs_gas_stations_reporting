@@ -10,3 +10,4 @@ requests
 scipy
 openpyxl
 boto3
+selenium
