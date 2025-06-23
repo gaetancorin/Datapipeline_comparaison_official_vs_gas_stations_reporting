@@ -54,10 +54,9 @@ def update_gas_stations_infos(gas_stations_infos, db_name, collection):
     db_mongo = client_mongo.get_database(db_name)
     collection_mongo = db_mongo.get_collection(collection)
     collection_mongo.create_index([("Id_station_essence", pymongo.ASCENDING), ("Cp", pymongo.ASCENDING)])
-
-    # Replace gas_station_infos row only if Id_station_essence matches and row's Last_update is more recent than in Mongo.
-    # If no matching Id_station_essence exists, insert the row.
     records = gas_stations_infos.to_dict(orient="records")
+
+    # Replace gas_station_infos row only if "Id_station_essence" matches and row's Last_update is more recent than in Mongo.
     operations = [
         ReplaceOne(
             {
@@ -68,11 +67,17 @@ def update_gas_stations_infos(gas_stations_infos, db_name, collection):
                 ]
             },
             record,
-            upsert=True
+            upsert=False
         )
         for record in records
     ]
     collection_mongo.bulk_write(operations)
+
+    # If no matching "Id_station_essence exists", insert the row.
+    existing_ids = set(doc["Id_station_essence"] for doc in collection_mongo.find({}, {"Id_station_essence": 1}))
+    records_to_insert = [r for r in records if r["Id_station_essence"] not in existing_ids]
+    if records_to_insert:
+        collection_mongo.insert_many(records_to_insert)
     print("correctly update gas_station_infos datas to MongoDB")
 
 
