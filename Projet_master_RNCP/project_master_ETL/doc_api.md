@@ -1,4 +1,7 @@
-# ####### FLASK APIs
+# project_master_etl FLASK APIs
+This Flask repository is an ETL pipeline to extract, transform, and load oil prices from gas stations and official government reports, then format the data and make it available for comparison to extract business KPIs.
+
+**The Postman API import is available in the root folder.**
 
 ## **GET /is_alive **
 This API allows to check the flask server

@@ -45,14 +45,13 @@
 					"formdata": [
 						{
 							"key": "year_to_load",
-							"value": "2007",
+							"value": "2020",
 							"type": "text"
 						},
 						{
 							"key": "drop_mongo_collections",
 							"value": "true",
-							"type": "text",
-							"disabled": true
+							"type": "text"
 						}
 					]
 				},
@@ -129,8 +128,7 @@
 						{
 							"key": "drop_mongo_collections",
 							"value": "true",
-							"type": "text",
-							"disabled": true
+							"type": "text"
 						}
 					]
 				},
@@ -233,6 +231,36 @@
 			"response": []
 		},
 		{
+			"name": "/mongo/list_all_mongo_collections",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/mongo/list_all_mongo_collections",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"mongo",
+						"list_all_mongo_collections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "/mongo/drop_one_collection",
 			"request": {
 				"method": "POST",
@@ -305,18 +333,15 @@
 		},
 		{
 			"name": "/utils/list_S3_contents",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "db_name",
-							"value": "denormalization",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/utils/list_S3_contents",
