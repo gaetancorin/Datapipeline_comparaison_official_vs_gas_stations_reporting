@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 import boto3
+from botocore.exceptions import ClientError
 
 # Load environment variables from the .env file
 load_dotenv('env/.env')
@@ -45,3 +46,17 @@ def download_file_from_s3_to_path(object_name, out_path, bucket=BUCKET_NAME):
     complete_dump_path = os.path.join(out_path, object_name)
     s3.download_file(bucket, object_name, complete_dump_path)
     print(f"[INFO] Download S3 {object_name} File and stock here: {out_path}")
+
+
+def check_existence_into_S3(object_name, bucket=BUCKET_NAME):
+    try:
+        s3.head_object(Bucket=bucket, Key=object_name)
+        print(f"[INFO] S3 object '{object_name}' exists in bucket '{bucket}'.")
+        return True, None
+    except ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            print(f"[INFO] S3 object '{object_name}' does not exist in bucket '{bucket}'.")
+            return False, f"S3 object '{object_name}' does not exist in bucket '{bucket}'."
+        else:
+            print(f"[ERROR] Unexpected error checking S3 object: {e}")
+            return False, f"Unexpected error checking S3 object: {e}"

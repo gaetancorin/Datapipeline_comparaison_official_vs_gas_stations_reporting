@@ -10,6 +10,7 @@ import App.denormalize_station_prices as denorm_station_prices
 import App.denorm_station_vs_official_prices as denorm_station_vs_official_prices
 import App.utils as utils
 import App.S3_manager as S3_manager
+import App.mongo_manager as mongo_manager
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
@@ -111,6 +112,20 @@ def api_merge_denorm_station_vs_official_prices():
         lockfile.release_lock(fd, lockfile_name)
 
 
+@app.route('/mongo/list_all_mongo_collections', methods=["GET"])
+def api_list_all_mongo_collections():
+    lockfile_name = './LOCKFILE_api_list_all_mongo_collections.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        result = mongo_manager.list_all_collections()
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
 @app.route('/mongo/drop_one_collection', methods=["POST"])
 def api_drop_one_collection():
     lockfile_name = './LOCKFILE_api_drop_one_collection.lock'
@@ -159,7 +174,7 @@ def api_save_mongo_dump_to_S3():
         lockfile.release_lock(fd, lockfile_name)
 
 
-@app.route('/utils/list_S3_contents', methods=["POST"])
+@app.route('/utils/list_S3_contents', methods=["GET"])
 def api_list_S3_contents():
     lockfile_name = './LOCKFILE_list_S3_contents.lock'
     fd = lockfile.acquire_lock(lockfile_name)
@@ -183,7 +198,13 @@ def api_restore_mongo_dump_from_S3():
     try:
         zip_name = request.form.get('zip_name')
         new_bdd_name = request.form.get('new_bdd_name')
-        utils.restore_mongo_dump_from_S3(zip_name, new_bdd_name)
-        return "done"
+        if zip_name is None:
+            print("You need to fill zip_name parameter")
+            return "You need to fill zip_name parameter"
+        if new_bdd_name is None:
+            print("You need to fill new_bdd_name parameter")
+            return "You need to fill new_bdd_name parameter"
+        result = utils.restore_mongo_dump_from_S3(zip_name, new_bdd_name)
+        return result
     finally:
         lockfile.release_lock(fd, lockfile_name)

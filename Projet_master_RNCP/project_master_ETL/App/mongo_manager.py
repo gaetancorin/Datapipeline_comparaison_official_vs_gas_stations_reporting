@@ -130,6 +130,21 @@ def drop_mongo_collections(bdd, collections):
         print(f"[INFO] Into Mongo, drop '{collection.upper()}' collection in '{bdd.upper()}' bdd")
         db_mongo.drop_collection(collection)
 
+def list_all_collections():
+    result = {}
+    databases = client_mongo.list_database_names()
+    databases = [db for db in databases if db not in ["admin", "config", "local"]]
+    for database in databases:
+        db_mongo = client_mongo.get_database(database)
+        collections = db_mongo.list_collection_names()
+        for collection in collections:
+            print(f"[INFO] Found {collection} collection in '{database}' database.")
+            if database in result:
+                result[database].append(collection)
+            else:
+                result[database] = [collection]
+    return result
+
 
 def mongodump(db_name, out_path):
     uri = build_mongo_uri(db_name)

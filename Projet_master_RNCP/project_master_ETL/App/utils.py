@@ -102,8 +102,12 @@ def compress_mongo_dump_to_zip(folder_to_zip, db_name):
 
 
 def restore_mongo_dump_from_S3(zip_name, new_bdd_name):
-    os.makedirs("outputs/mongo_dump", exist_ok=True)
+    # verify if mongo_dump name is existing in S3
+    result, logs = S3_manager.check_existence_into_S3(zip_name)
+    if result != True:
+        return f'fail, {logs}'
     # download zip to S3
+    os.makedirs("outputs/mongo_dump", exist_ok=True)
     S3_manager.download_file_from_s3_to_path(zip_name, out_path="outputs/mongo_dump")
     # dezip mongo dump
     dump_folder_path, old_db_name = decompress_zip_to_mongo_dump(zip_name)
