@@ -24,6 +24,7 @@ def determine_dates_to_load_from_mongo(year_to_load, db_name, collection):
             elif collection == "official_oils_prices" or collection == "denorm_station_vs_official_prices":
                 start_date_to_load = pd.to_datetime("1985-01-01")
         end_date_to_load = pd.Timestamp.today().normalize()
+        print(f"[INFO] start_date_to_load= {start_date_to_load}, end_date_to_load= {end_date_to_load}")
     return start_date_to_load, end_date_to_load
 
 

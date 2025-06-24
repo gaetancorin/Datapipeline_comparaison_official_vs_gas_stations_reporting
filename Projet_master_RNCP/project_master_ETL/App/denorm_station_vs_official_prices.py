@@ -34,7 +34,7 @@ def extract_new_denorm_station_prices_from_mongo(start_date_to_load, end_date_to
 
     df_denorm_station = mongo_manager.get_filtered_datas_from_one_collection(start_date_to_load, end_date_to_load, db_name="denormalization", collection="denorm_station_prices")
     if df_denorm_station.empty:
-        print(f"[WARNING] No existing datas on denorm_station_prices for Date {start_date_to_load} to {end_date_to_load}")
+        print(f"[WARNING] Into merge, No existing datas on denorm_station_prices for Date {start_date_to_load} to {end_date_to_load}")
         return df_denorm_station
     df_denorm_station = df_denorm_station[[
         "Date", "station_ttc_GAZOLE_eur_liter",
@@ -51,7 +51,7 @@ def extract_new_official_oils_prices_from_mongo(start_date_to_load, end_date_to_
 
     df_official_oils = mongo_manager.get_filtered_datas_from_one_collection(start_date_to_load, end_date_to_load, db_name="datalake", collection="official_oils_prices")
     if df_official_oils.empty:
-        print(f"[WARNING] No existing datas on official_oils_prices for Date {start_date_to_load} to {end_date_to_load}")
+        print(f"[WARNING] Into merge, No existing datas on official_oils_prices for Date {start_date_to_load} to {end_date_to_load}")
         return df_official_oils
     df_official_oils = df_official_oils[[
         "Date", "official_ttc_GAZOLE_eur_liter",

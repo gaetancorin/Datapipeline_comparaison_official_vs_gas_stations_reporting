@@ -48,4 +48,6 @@ COUNT:
 6 749 elements in denorm_station_prices
 7 897 elements in denorm_station_vs_official_prices
 
+ALL loading: 1h25
+
 

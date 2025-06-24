@@ -23,7 +23,9 @@ def launch_etl_gas_stations_oils_prices(year_to_load = None, drop_mongo_collecti
         mongo_manager.drop_mongo_collections(bdd = "datalake", collections= ["gas_stations_infos", "gas_stations_price_logs_eur"])
     start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "datalake", collection= "gas_stations_price_logs_eur")
     extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load)
-    transform_gas_stations_oils_prices()
+    result = transform_gas_stations_oils_prices(start_date_to_load, end_date_to_load)
+    if result == None:
+        return "done"
     load_gas_stations_oils_prices_to_mongo()
     return "done"
 
@@ -116,7 +118,7 @@ def extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
     print("END LOAD", years_to_load)
     return "done"
 
-def transform_gas_stations_oils_prices():
+def transform_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
     print("[INFO] Start transform_gas_stations_oils_prices")
 
     # clean working csv folder and recreate it
@@ -140,6 +142,15 @@ def transform_gas_stations_oils_prices():
             df_prices["date"] = pd.to_datetime(df_prices["date"], format="%Y_%m_%d")
             df_prices['heuremin'] = pd.to_datetime(df_prices['maj'],format='%Y_%m_%d_%H:%M',errors='coerce').dt.strftime('%H:%M')
             df_prices = df_prices.drop(columns=["maj"])
+
+            # reduce df by specific dates we want only
+            df_prices = df_prices[
+                (df_prices['date'] >= start_date_to_load) &
+                (df_prices['date'] <= end_date_to_load)
+                ]
+            if df_prices.empty:
+                print(f"[INFO] No data in gas_stations_oils_prices between {start_date_to_load} and {end_date_to_load}")
+                return None
             print(df_prices.head(5))
 
             print("gas-station oils availables:\n", df_prices["nom"].dropna().unique())

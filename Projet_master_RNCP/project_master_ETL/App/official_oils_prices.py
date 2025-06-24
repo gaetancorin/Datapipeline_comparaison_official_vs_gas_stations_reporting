@@ -19,7 +19,11 @@ def launch_etl_official_oils_prices(year_to_load = None, drop_mongo_collections 
     start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "datalake", collection= "official_oils_prices")
     df_official_oils_prices = extract_new_official_oils_prices()
     df_official_oils_prices = transform_official_oils_prices(df_official_oils_prices, start_date_to_load, end_date_to_load)
+    if df_official_oils_prices.empty:
+        print(f"[INFO] No data in official_oils_prices between {start_date_to_load} and {end_date_to_load}")
+        return "done"
     load_official_oils_prices_to_mongo(df_official_oils_prices)
+    return "done"
 
 
 def extract_new_official_oils_prices():

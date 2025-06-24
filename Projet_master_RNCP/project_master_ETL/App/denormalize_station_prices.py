@@ -30,9 +30,9 @@ def denormalize_station_prices_for_dataviz(year_to_load = None, drop_mongo_colle
         df_stations_price_logs = extract_new_station_prices_from_mongo(start_date, end_date)
         if df_stations_price_logs.empty:
             print(f"[WARNING] No found data in 'gas_stations_price_logs_eur' collection  between {start_date} et {end_date}")
-            continue
-        df_denorm_station_prices = transform_and_denormalize_station_prices(df_stations_price_logs)
-        load_denormalized_station_prices(df_denorm_station_prices)
+        else:
+            df_denorm_station_prices = transform_and_denormalize_station_prices(df_stations_price_logs)
+            load_denormalized_station_prices(df_denorm_station_prices)
         current_year_to_load = current_year_to_load + pd.DateOffset(years=1)
     return "done"
 

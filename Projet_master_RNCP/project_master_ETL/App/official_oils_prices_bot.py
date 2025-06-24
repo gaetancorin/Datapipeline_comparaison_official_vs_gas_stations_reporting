@@ -23,14 +23,14 @@ def get_url_for_download_official_oils_prices():
     print("[BOT] go to url")
     WebDriverWait(driver, 10)
     driver.get("https://www.ecologie.gouv.fr/politiques-publiques/prix-produits-petroliers")
-    time.sleep(3)
+    time.sleep(5)
 
     # remove popup for cookie
     print("[BOT] remove popup for cookie")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "button.tarteaucitronCTAButton.tarteaucitronDeny"))
     ).click()
-    time.sleep(1)
+    time.sleep(2)
 
     # click on 'demarré' button
     print("[BOT] click on 'demarré' button")
@@ -38,20 +38,20 @@ def get_url_for_download_official_oils_prices():
         EC.element_to_be_clickable((
                 By.CSS_SELECTOR,"a.use-ajax.fr-btn[href^='/ajax/simulator/load/customer_simulator_energies_fuel_block']"))
     ).click()
-    time.sleep(1)
+    time.sleep(2)
 
     # click on 'Étape suivante'' button
     print("[BOT] click on 'Étape suivante'' button")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "input[value='Étape suivante']"))
     ).click()
-    time.sleep(1)
+    time.sleep(2)
 
     print("[BOT] choose 'Carburants routiers' radio button")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//label[.//span[contains(normalize-space(.), 'Carburants routiers')]]"))
     ).click()
-    time.sleep(1)
+    time.sleep(2)
 
     # click on radio "suivre l evolution"
     print("[BOT] choose 'suivre l evolution' radio button")
@@ -59,7 +59,7 @@ def get_url_for_download_official_oils_prices():
         EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='radio'][value='monitor']"))
     )
     driver.execute_script("arguments[0].click();", radio)
-    time.sleep(1)
+    time.sleep(2)
 
     # click on button for validate formulary 'étape suivante'
     print("[BOT] click on button for validate formulary 'étape suivante'")
@@ -67,7 +67,7 @@ def get_url_for_download_official_oils_prices():
         EC.element_to_be_clickable((By.CSS_SELECTOR, "input.webform-button--next"))
     )
     driver.execute_script("arguments[0].click();", next_btn)
-    time.sleep(1)
+    time.sleep(2)
 
     # click on all carburants in list
     print("[BOT] click on all carburants in list:")
@@ -75,59 +75,59 @@ def get_url_for_download_official_oils_prices():
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-gazole']"))
     )
-    time.sleep(1)
+    time.sleep(2)
     print("sp95")
     driver.execute_script("arguments[0].click();", label)
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-sp95']"))
     )
-    time.sleep(1)
+    time.sleep(2)
     print("sp95-e10")
     driver.execute_script("arguments[0].click();", label)
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-sp95-e10']"))
     )
-    time.sleep(1)
+    time.sleep(2)
     print("sp98")
     driver.execute_script("arguments[0].click();", label)
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-sp98']"))
     )
-    time.sleep(1)
+    time.sleep(2)
     print("e85")
     driver.execute_script("arguments[0].click();", label)
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-superethanol-e85']"))
     )
-    time.sleep(1)
+    time.sleep(2)
     print("gpl")
     driver.execute_script("arguments[0].click();", label)
     label = WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for^='edit-monitor-road-fuels-gpl']"))
     )
     driver.execute_script("arguments[0].click();", label)
-    time.sleep(1)
+    time.sleep(2)
 
     #full input starting data dates
     print("[BOT] full input of starting data dates")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='monitor_start_date']"))
     ).send_keys("01011900")
-    time.sleep(1)
+    time.sleep(2)
 
     #full input ending data dates
     print("[BOT] full input of ending data dates")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='monitor_end_date']"))
     ).send_keys("01012100")
-    time.sleep(1)
+    time.sleep(2)
 
     #click on button for validate formulary 'Soumettre'
     print("[BOT] click on button for validate formulary 'Soumettre'")
     WebDriverWait(driver, 10).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "input[type='submit'][value='Soumettre']"))
     ).click()
-    time.sleep(1)
+    time.sleep(60)
 
     # wait response and get link for download data
     print("[BOT] wait response (almost 30 seconds) and get link for download data")
