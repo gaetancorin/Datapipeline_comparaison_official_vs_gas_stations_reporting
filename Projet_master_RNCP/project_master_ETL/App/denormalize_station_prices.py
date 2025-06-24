@@ -12,23 +12,33 @@ def denormalize_station_prices_for_dataviz(year_to_load = None, drop_mongo_colle
     if drop_mongo_collections == "true":
         print("[INFO] Drop Mongo collections")
         mongo_manager.drop_mongo_collections(bdd = "denormalization", collections= ["denorm_station_prices"])
-    start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "denormalization", collection= "denorm_station_prices")
-    df_stations_price_logs = extract_new_station_prices_from_mongo(start_date_to_load, end_date_to_load)
-    if df_stations_price_logs.empty:
-        return None
-    df_denorm_station_prices = transform_and_denormalize_station_prices(df_stations_price_logs)
-    load_denormalized_station_prices(df_denorm_station_prices)
-    return "done"
-
-
-def extract_new_station_prices_from_mongo(start_date_to_load, end_date_to_load):
-    print("[INFO] Start extract_new_station_prices_from_mongo")
 
     # clean working csv folder and recreate it
     if os.path.exists("outputs/denorm_station_prices"):
         shutil.rmtree("outputs/denorm_station_prices")
     os.makedirs("outputs/denorm_station_prices", exist_ok=True)
 
+    start_date_to_load, end_date_to_load = utils.determine_dates_to_load_from_mongo(year_to_load, db_name= "denormalization", collection= "denorm_station_prices")
+
+    current_year_to_load = start_date_to_load
+    while current_year_to_load < end_date_to_load:
+        start_date = current_year_to_load
+        end_date = current_year_to_load + pd.DateOffset(years=1)
+        if end_date >= end_date_to_load:
+            end_date = end_date_to_load
+        print(f"[INFO] Start denormalize station prices for year {start_date.year}")
+        df_stations_price_logs = extract_new_station_prices_from_mongo(start_date, end_date)
+        if df_stations_price_logs.empty:
+            print(f"[WARNING] No found data in 'gas_stations_price_logs_eur' collection  between {start_date} et {end_date}")
+            continue
+        df_denorm_station_prices = transform_and_denormalize_station_prices(df_stations_price_logs)
+        load_denormalized_station_prices(df_denorm_station_prices)
+        current_year_to_load = current_year_to_load + pd.DateOffset(years=1)
+    return "done"
+
+
+def extract_new_station_prices_from_mongo(start_date_to_load, end_date_to_load):
+    print("[INFO] Start extract_new_station_prices_from_mongo")
     df_stations_price_logs = mongo_manager.get_filtered_datas_from_one_collection(start_date_to_load, end_date_to_load, db_name="datalake", collection="gas_stations_price_logs_eur")
     if df_stations_price_logs.empty:
         print(f"[WARNING] No existing datas on gas_stations_price_logs_eur for Date {start_date_to_load} to {end_date_to_load}")

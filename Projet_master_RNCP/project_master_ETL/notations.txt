@@ -38,3 +38,14 @@ datalake:
 denormalization:
     denorm_station_prices (station_ttc_gas_eur_liter)
     denorm_station_vs_official_prices (all_ttc_gas_eur_liter)
+
+
+COUNT:
+39 513 801 elements in gas_stations_price_logs_eur
+13 660 elements in gas_stations_infos
+2 112 elements in official_oils_prices
+
+6 749 elements in denorm_station_prices
+7 897 elements in denorm_station_vs_official_prices
+
+
