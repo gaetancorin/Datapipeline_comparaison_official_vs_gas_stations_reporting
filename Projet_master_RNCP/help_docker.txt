@@ -18,3 +18,6 @@ arreter le docker:
 docker stop project_master_etl
 docker rm project_master_etl
 
+
+Attention:
+Docker fait -2h pour le scheduler; Un scheduler parametré a 10h tournera a 12h.

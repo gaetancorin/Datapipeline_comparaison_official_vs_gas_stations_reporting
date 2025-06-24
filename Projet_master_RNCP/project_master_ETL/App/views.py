@@ -24,7 +24,7 @@ def api_is_alive():
     return "alive"
 
 
-# Scheduler is working each day at 10hour
+# Scheduler is working each day at 10hours (12hours in docker)
 @scheduler.task('cron', id='complete_pipeline_oil_prices',year='*', month='*', day='*', week='*', day_of_week='*', hour='10', minute='0', second='0')
 @app.route('/etl/launch_complete_pipeline_oil_prices', methods=["POST"])
 def api_launch_complete_pipeline_oil_prices():
@@ -34,8 +34,14 @@ def api_launch_complete_pipeline_oil_prices():
         print(f"Job is already running. Skipping execution at {datetime.now()}")
         return {'message': 'Job already running'}, 200
     try:
-        year_to_load = request.form.get('year_to_load')
-        drop_mongo_collections = request.form.get('drop_mongo_collections')
+        try:
+            # Into API
+            year_to_load = request.form.get('year_to_load')
+            drop_mongo_collections = request.form.get('drop_mongo_collections')
+        except:
+            # Into Scheduler
+            year_to_load = None
+            drop_mongo_collections = None
 
         gas_stations_oils_prices.launch_etl_gas_stations_oils_prices(year_to_load, drop_mongo_collections)
         official_oils_prices.launch_etl_official_oils_prices(year_to_load, drop_mongo_collections)
@@ -157,7 +163,7 @@ def api_drop_one_bdd():
         lockfile.release_lock(fd, lockfile_name)
 
 
-# Scheduler is working each day at 13hour
+# Scheduler is working each day at 13hours (15hours in docker)
 @scheduler.task('cron', id='save_mongo_dump_to_S3',year='*', month='*', day='*', week='*', day_of_week='*', hour='13', minute='0', second='0')
 @app.route('/utils/save_mongo_dump_to_S3', methods=["POST"])
 def api_save_mongo_dump_to_S3():
@@ -167,7 +173,12 @@ def api_save_mongo_dump_to_S3():
         print(f"Job is already running. Skipping execution at {datetime.now()}")
         return {'message': 'Job already running'}, 200
     try:
-        db_name = request.form.get('db_name')
+        try:
+            # Into API
+            db_name = request.form.get('db_name')
+        except:
+            # Into Scheduler
+            db_name = None
         utils.save_mongo_dump_to_S3(db_name)
         return "done"
     finally:
