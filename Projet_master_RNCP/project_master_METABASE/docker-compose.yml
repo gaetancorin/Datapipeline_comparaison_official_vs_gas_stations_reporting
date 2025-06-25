@@ -4,8 +4,6 @@ services:
     container_name: metabase
     ports:
       - "3000:3000"
-    volumes:
-      - ./metabase_data:/metabase.db
 
   project_master_metabase:
     build: .
@@ -13,5 +11,5 @@ services:
     ports:
       - "5001:5001"
     volumes:
-      - ./metabase_data:/metabase_data
-      - ./output:/output
+       # Allows the Flask container to run Docker commands (e.g., stop/restart Metabase)
+      - /var/run/docker.sock:/var/run/docker.sock
