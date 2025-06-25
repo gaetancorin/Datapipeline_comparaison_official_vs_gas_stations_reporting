@@ -1,7 +1,17 @@
---- docker METABASE ---
+----------- docker METABASE ---------
+
+Lancer le docker opensource:
+docker run -d -p 3000:3000 --name metabase metabase/metabase
+
+redemarrer le docker existant:
+docker start metabase
+
+arreter le docker:
+docker stop metabase
+docker rm metabase
 
 
---- Dans le flask project_master_ETL ---
+------ Dans le flask project_master_ETL ------
 
 Construire l'image:
 docker build -t project_master_etl .
@@ -20,4 +30,8 @@ docker rm project_master_etl
 
 
 Attention:
-Docker fait -2h pour le scheduler; Un scheduler parametré a 10h tournera a 12h.
+Docker fait -2h pour le scheduler; Un scheduler configuré a 10h tournera a 12h.
+
+-------------- DOCKER COMPOSE ---------------
+construire le docker compose:
+docker-compose up --build

@@ -1,0 +1,17 @@
+services:
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./metabase_data:/metabase.db
+
+  project_master_metabase:
+    build: .
+    container_name: project_master_metabase
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./metabase_data:/metabase_data
+      - ./output:/output
