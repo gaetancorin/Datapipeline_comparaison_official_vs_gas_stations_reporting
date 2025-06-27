@@ -13,34 +13,35 @@ def save_metabase_db_to_S3():
     os.makedirs("outputs/metabase_db_to_S3", exist_ok=True)
 
     str_current_date = datetime.now().strftime("%Y_%m_%d")
-    folder_to_zip = "outputs/metabase_db_to_S3/metabase.db_" + str_current_date
+    folder_path_to_zip = "outputs/metabase_db_to_S3/metabase.db_" + str_current_date
 
     stop_metabase()
-    copy_metabase_db_to_local(out_path=folder_to_zip)
+    copy_metabase_db_to_local(out_path=folder_path_to_zip)
     start_metabase()
-    zip_path = compress_local_metabase_db_to_zip(folder_to_zip)
-    S3_manager.upload_file_to_s3(file_path=zip_path, object_name=f"metabase_db/{os.path.basename(zip_path)}")
+    folder_path_zipped = compress_local_metabase_db_to_zip(folder_path_to_zip)
+    folder_zipped = os.path.basename(folder_path_zipped)
+    S3_manager.upload_file_to_s3(file_path=folder_path_zipped, object_name=f"metabase_db/{folder_zipped}")
     return "done"
 
 
-def restore_metabase_db_from_S3(zip_s3_path):
+def restore_metabase_db_from_S3(folder_path_S3_zipped):
     # clean working folder and recreate it
     if os.path.exists("outputs/restore_metabase_db"):
         shutil.rmtree("outputs/restore_metabase_db")
     os.makedirs("outputs/restore_metabase_db", exist_ok=True)
 
     # verify if mongo_dump name is existing in S3
-    result, logs = S3_manager.check_existence_into_S3(zip_s3_path)
+    result, logs = S3_manager.check_existence_into_S3(folder_path_S3_zipped)
     if result != True:
         return f'fail, {logs}'
     # download zip to S3
-    S3_manager.download_file_from_s3_to_path(zip_s3_path, out_path="outputs/restore_metabase_db")
-    zip_name = os.path.basename(zip_s3_path)
+    S3_manager.download_file_from_s3_to_path(folder_path_S3_zipped, out_path="outputs/restore_metabase_db")
+    local_folder_name_zipped = os.path.basename(folder_path_S3_zipped)
     # dezip metabase_db
-    db_folder_path, old_db_name = decompress_zip_to_outputs(zip_name, outputs_folder="outputs/restore_metabase_db")
-    os.rename(db_folder_path, "outputs/restore_metabase_db/"+old_db_name)
+    local_folder_path_dezipped, official_db_name = decompress_zip_to_outputs(local_folder_name_zipped, outputs_folder="outputs/restore_metabase_db")
+    os.rename(local_folder_path_dezipped, "outputs/restore_metabase_db/"+official_db_name)
     # restore metabase_db
-    copy_local_metabase_db_to_docker("outputs/restore_metabase_db/"+old_db_name)
+    copy_local_metabase_db_to_docker("outputs/restore_metabase_db/"+official_db_name)
     stop_metabase()
     start_metabase()
     return "done"
