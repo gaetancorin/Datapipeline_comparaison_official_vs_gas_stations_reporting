@@ -5,10 +5,9 @@ from datetime import datetime
 import App.lockfile as lockfile
 import time
 import os
-# import logging
 import App.utils as utils
+import App.S3_manager as S3_manager
 
-# logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)
 CORS(app)
 scheduler = APScheduler()
@@ -20,7 +19,21 @@ def api_is_alive():
     return "alive"
 
 
-@app.route('/save_metabase_db_to_S3', methods=["GET"])
+@app.route('/utils/list_S3_contents', methods=["GET"])
+def api_list_S3_contents():
+    lockfile_name = './LOCKFILE_list_S3_contents.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        result = S3_manager.list_S3_contents(prefix="metabase_db/")
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/utils/save_metabase_db_to_S3', methods=["GET"])
 def api_save_metabase_db_to_S3():
     print("[INFO] save_metabase_db_to_S3")
     lockfile_name = './LOCKFILE_save_metabase_db_to_S3.lock'
@@ -29,10 +42,31 @@ def api_save_metabase_db_to_S3():
         print(f"Job is already running. Skipping execution at {datetime.now()}")
         return {'message': 'Job already running'}, 200
     try:
-        print("do stuffs")
-        return "done"
+        result = utils.save_metabase_db_to_S3()
+        return result
     finally:
         lockfile.release_lock(fd, lockfile_name)
+
+
+@app.route('/utils/restore_metabase_db_from_S3', methods=["POST"])
+def api_restore_metabase_db_from_S3():
+    lockfile_name = './LOCKFILE_restore_metabase_db_from_S3.lock'
+    fd = lockfile.acquire_lock(lockfile_name)
+    if fd is None:
+        print(f"Job is already running. Skipping execution at {datetime.now()}")
+        return {'message': 'Job already running'}, 200
+    try:
+        zip_s3_path = request.form.get('zip_name')
+        if zip_s3_path is None:
+            print("You need to fill zip_name parameter")
+            return "You need to fill zip_name parameter"
+        if not zip_s3_path.startswith("metabase_db/"):
+            zip_s3_path = f"metabase_db/{zip_s3_path}"
+        result = utils.restore_metabase_db_from_S3(zip_s3_path)
+        return result
+    finally:
+        lockfile.release_lock(fd, lockfile_name)
+
 
 @app.route('/stop_metabase', methods=["GET"])
 def api_stop_metabase():
@@ -42,14 +76,4 @@ def api_stop_metabase():
 @app.route('/launch_metabase', methods=["GET"])
 def api_launch_metabase():
     utils.start_metabase()
-    return "done"
-
-@app.route('/delete_metabase_db_in_container', methods=["GET"])
-def api_metabase_db_in_container():
-    utils.delete_metabase_db_in_container()
-    return "done"
-
-@app.route('/copy_metabase_db_from_container', methods=["GET"])
-def api_copy_metabase_db_from_container():
-    utils.copy_metabase_db_from_container()
     return "done"

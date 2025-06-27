@@ -3,6 +3,59 @@ from pathlib import Path
 from datetime import datetime
 import subprocess
 import os
+import App.S3_manager as S3_manager
+
+
+def save_metabase_db_to_S3():
+    # clean working folder and recreate it
+    if os.path.exists("outputs/metabase_db_to_S3"):
+        shutil.rmtree("outputs/metabase_db_to_S3")
+    os.makedirs("outputs/metabase_db_to_S3", exist_ok=True)
+
+    str_current_date = datetime.now().strftime("%Y_%m_%d")
+    folder_to_zip = "outputs/metabase_db_to_S3/metabase.db_" + str_current_date
+
+    stop_metabase()
+    copy_metabase_db_to_local(out_path=folder_to_zip)
+    start_metabase()
+    zip_path = compress_local_metabase_db_to_zip(folder_to_zip)
+    S3_manager.upload_file_to_s3(file_path=zip_path, object_name=f"metabase_db/{os.path.basename(zip_path)}")
+    return "done"
+
+
+def restore_metabase_db_from_S3(zip_s3_path):
+    # clean working folder and recreate it
+    if os.path.exists("outputs/restore_metabase_db"):
+        shutil.rmtree("outputs/restore_metabase_db")
+    os.makedirs("outputs/restore_metabase_db", exist_ok=True)
+
+    # verify if mongo_dump name is existing in S3
+    result, logs = S3_manager.check_existence_into_S3(zip_s3_path)
+    if result != True:
+        return f'fail, {logs}'
+    # download zip to S3
+    S3_manager.download_file_from_s3_to_path(zip_s3_path, out_path="outputs/restore_metabase_db")
+    zip_name = os.path.basename(zip_s3_path)
+    # dezip metabase_db
+    db_folder_path, old_db_name = decompress_zip_to_outputs(zip_name, outputs_folder="outputs/restore_metabase_db")
+    os.rename(db_folder_path, "outputs/restore_metabase_db/"+old_db_name)
+    # restore metabase_db
+    copy_local_metabase_db_to_docker("outputs/restore_metabase_db/"+old_db_name)
+    stop_metabase()
+    start_metabase()
+    return "done"
+
+
+def decompress_zip_to_outputs(zip_name, outputs_folder="outputs"):
+    zip_path = os.path.join(outputs_folder, zip_name)
+    if not os.path.exists(zip_path):
+        print(f"[ERROR]: Zip file for '{zip_name}' not found at {zip_path}")
+    folder_path = os.path.join(outputs_folder, zip_name.split(".zip")[0])
+    shutil.unpack_archive(zip_path, folder_path)
+    # Remove the zip dump file
+    os.remove(zip_path)
+    old_db_name = "_".join(zip_name.split("_")[:-3])
+    return folder_path, old_db_name
 
 
 def stop_metabase():
@@ -10,10 +63,12 @@ def stop_metabase():
     subprocess.run(["docker", "stop", "metabase"], check=True)
     return "done"
 
+
 def start_metabase():
     print("[INFO] Start Metabase docker container")
     subprocess.run(["docker", "start", "metabase"], check=True)
     return "done"
+
 
 def delete_metabase_db_in_container(container_name="metabase", db_path="/metabase.db"):
     print(f"[INFO] Delete directory {db_path} inside container {container_name}...")
@@ -25,20 +80,39 @@ def delete_metabase_db_in_container(container_name="metabase", db_path="/metabas
     return "done"
 
 
-def copy_metabase_db_from_container():
-    os.makedirs("./outputs", exist_ok=True)
-    date_str = datetime.now().strftime("%Y_%m_%d")
-    file_name = "metabase.db_" + date_str
-    destination_path = Path("./outputs") / file_name
+def copy_metabase_db_to_local(out_path):
+    destination_path = Path(out_path)
     print(f"[INFO] Copying '/metabase.db' from container metabase to {destination_path} on host...")
     try:
-        # Remove destination folder if it already exists (optional)
-        if destination_path.exists():
-            print(f"[INFO] Removing existing directory {destination_path}...")
-            subprocess.run(["rm", "-rf", str(destination_path)], check=True)
         # Copy folder from container to host
         subprocess.run(["docker", "cp", "metabase:/metabase.db", str(destination_path)], check=True)
         print("[INFO] Copy completed successfully.")
     except subprocess.CalledProcessError as e:
         print(f"[ERROR] Failed to copy directory from container: {e}")
     return "done"
+
+
+def copy_local_metabase_db_to_docker(metabase_db_folder_path):
+    print(f"[INFO] Try remove '/metabase.db' from container metabase")
+    subprocess.run(["docker", "exec", "metabase", "rm", "-rf", "/metabase.db"], check=True)
+    print(f"[INFO] Success remove '/metabase.db' from container metabase")
+    try:
+        # Copy folder from container to host
+        print(f"[INFO] Try copie local {metabase_db_folder_path} to container folder '/metabase.db'")
+        subprocess.run(["docker", "cp", str(metabase_db_folder_path), "metabase:/"], check=True)
+        print("[INFO] Copy completed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"[ERROR] Failed to copy directory from container: {e}")
+    return "done"
+
+
+def compress_local_metabase_db_to_zip(folder_to_zip):
+    if not os.path.exists(folder_to_zip):
+        print(f"[ERROR]: local Metabase db not found at {folder_to_zip}")
+
+    shutil.make_archive(folder_to_zip, 'zip', folder_to_zip)
+    print(f"[INFO] Success zip the metabase_db: {folder_to_zip}.zip")
+    # Remove the uncompressed metabase_db folder
+    shutil.rmtree(folder_to_zip)
+    print(f"[INFO] Removed original uncompressed metabase_db folder: {folder_to_zip}")
+    return folder_to_zip + ".zip"
