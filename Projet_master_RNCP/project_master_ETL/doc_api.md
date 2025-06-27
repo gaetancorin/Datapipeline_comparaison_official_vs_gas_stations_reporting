@@ -31,7 +31,7 @@ This API allows to launch complete pipeline for load all datas to mongo
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -49,7 +49,7 @@ This API allows to launch part of pipeline for load specific gas_stations_oil_pr
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -67,7 +67,7 @@ This API allows to launch part of pipeline for load specific official_oils_price
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -86,7 +86,7 @@ This API allows to launch part of pipeline for get datas on Mongo, transform dat
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -104,7 +104,7 @@ This API allows to launch part of pipeline for get 'denormalize_station_prices' 
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -148,7 +148,7 @@ This API allows to remove one collection on MongoDB and delete all datas inside 
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -165,7 +165,7 @@ This API allows to remove selected database on MongoDB and delete all collection
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -173,7 +173,7 @@ http://127.0.0.1:5000/mongo/drop_one_bdd
 
 
 ## **GET /utils/list_S3_contents **
-This API allows to see all files and contents inside S3 (mongo_dump, Metabase_dump).
+This API allows to see all files and contents inside S3 (mongo_dump).
 
 ### **Params**
 | Request Params | Field Type | Field Description                          | Optionnal Fill            |
@@ -212,7 +212,7 @@ this API allows you to create a dump of a MongoDB database and automatically upl
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
@@ -230,7 +230,7 @@ This API allows you to get specific mongo dump from S3, and load it into Mongo b
 
 ### **Response**
 ```json
-'done'
+"done"
 ```
 
 ### **Example**
