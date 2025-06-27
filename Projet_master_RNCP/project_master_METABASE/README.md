@@ -1,12 +1,28 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Project_master_METABASE
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## ✅ Prerequisites
+Install Docker https://docs.docker.com/get-docker/
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## 📥 Clone the Repository
+```
+git clone https://github.com/gaetancorin/Datapipeline_project_master.git
+cd Datapipeline_project_master/Projet_master_RNCP/project_master_METABASE
+```
+
+
+## ⚙️ Setup
+Create a .env file inside the env/ folder based on the env/.env_example file, and fill in the required variables.
+
+## 🚀 Run the Project
+Go to the root of the Project Project_master_METABASE and
+Build and start the Docker-compose
+```
+docker-compose -p project_metabase_tools up --build -d
+```
+This will:
+- Build and Start the Flask API project into container
+- Build and Start the Metabase into container
+
+### 📮 (Recommended) Import API Collection into Postman
+For easier testing, import the '**Project_master_METABASE.postman_collection.json**' file into your local Postman application.
+This will give you a ready-to-use set of API requests.
