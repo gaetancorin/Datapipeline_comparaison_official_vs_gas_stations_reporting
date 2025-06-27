@@ -1,7 +1,19 @@
+---- Paramètrage WSL dans Windows -----
+parametrer  15gb de mémoire et 4 processeurs pour wsl lorsque docker desktop est allumé en créant le fichier C:\Users\gaeta\.wslconfig
+contenu du fichier:
+[wsl2]
+memory=15GB
+processors=4
+swap=0
+
+redemarrer wsl avec PowerShell: wsl --shutdown
+
 ------ Dans le flask project_master_ETL ------
 Construire l'image:
 docker build -t project_master_etl .
 
+Lancer le docker en détaché avec 15g mémoire:
+docker run -d -p 5000:5000 --name project_master_etl --memory="15g" project_master_etl
 Lancer le docker en détaché:
 docker run -d -p 5000:5000 --name project_master_etl project_master_etl
 Lancer le docker en voyant les logs:

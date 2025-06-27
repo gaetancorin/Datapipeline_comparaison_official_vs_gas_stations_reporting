@@ -7,6 +7,7 @@ import zipfile
 import io
 import os
 import warnings
+import time
 import xml.etree.ElementTree as ET
 import App.utils as utils
 import App.mongo_manager as mongo_manager
@@ -50,8 +51,14 @@ def extract_new_gas_stations_oils_prices(start_date_to_load, end_date_to_load):
         print("LOAD", year)
         # Source = "https://www.prix-carburants.gouv.fr/rubrique/opendata/" (gouvernemental opendata website)
         url = f"https://donnees.roulez-eco.fr/opendata/annee/{year}"
-        response = requests.get(url)
-        print(response)
+        for count in range(3):
+            try:
+                response = requests.get(url)
+                print(response)
+                break
+            except requests.exceptions.RequestException as e:
+                print(f"{count} Retry fail due to:", e)
+                time.sleep(5)
 
         # get filename
         zip_file = zipfile.ZipFile(io.BytesIO(response.content))
