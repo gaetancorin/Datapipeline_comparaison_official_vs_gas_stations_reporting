@@ -24,7 +24,7 @@ def api_is_alive():
     return "alive"
 
 
-# Scheduler is working each day at 10 french hours (12 french hours when in docker)
+# Scheduler runs daily at 10:00 French local time (12:00 French local time when running inside Docker).
 @scheduler.task('cron', id='complete_pipeline_oil_prices',year='*', month='*', day='*', week='*', day_of_week='*', hour='10', minute='0', second='0')
 @app.route('/etl/launch_complete_pipeline_oil_prices', methods=["POST"])
 def api_launch_complete_pipeline_oil_prices():
@@ -163,7 +163,7 @@ def api_drop_one_bdd():
         lockfile.release_lock(fd, lockfile_name)
 
 
-# Scheduler is working each day at 13 french hours (15 french hours in docker)
+# Scheduler runs daily at 13:00 French local time (15:00 French local time when running inside Docker).
 @scheduler.task('cron', id='save_mongo_dump_to_S3',year='*', month='*', day='*', week='*', day_of_week='*', hour='13', minute='0', second='0')
 @app.route('/utils/save_mongo_dump_to_S3', methods=["POST"])
 def api_save_mongo_dump_to_S3():

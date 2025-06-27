@@ -32,7 +32,8 @@ def api_list_S3_contents():
     finally:
         lockfile.release_lock(fd, lockfile_name)
 
-
+# Scheduler runs daily at 20:00 French local time (22:00 French local time when running inside Docker).
+@scheduler.task('cron', id='save_metabase_db_to_S3',year='*', month='*', day='*', week='*', day_of_week='*', hour='20', minute='0', second='0')
 @app.route('/utils/save_metabase_db_to_S3', methods=["GET"])
 def api_save_metabase_db_to_S3():
     print("[INFO] save_metabase_db_to_S3")
