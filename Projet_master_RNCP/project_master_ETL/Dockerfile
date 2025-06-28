@@ -39,6 +39,7 @@ COPY run.py run.py
 COPY env/ env/
 RUN rm env/.env && cp env/.env_prod env/.env
 COPY App/ App/
+COPY documentations/ documentations/
 
 # see logs in real times
 ENV PYTHONUNBUFFERED=1
