@@ -26,3 +26,20 @@ This will:
 ### 📮 (Recommended) Import API Collection into Postman
 For easier testing, import the '**Project_master_METABASE.postman_collection.json**' file into your local Postman application.
 This will give you a ready-to-use set of API requests.
+
+
+### 📮 (Recommended) Direct Import of metabase.db from Repository
+For easier testing and faster setup, a sample metabase.db file is included directly in the Flask repository.
+
+To use it:
+
+1. Send a POST request to the endpoint:
+**/utils/restore_metabase_db_from_S3**
+using Postman or any API client.
+
+2. In the request body, provide the following parameter value:
+```
+"zipname": "metabase_db_example"
+```
+3. Once the database is restored, open Metabase at:
+http://localhost:3000

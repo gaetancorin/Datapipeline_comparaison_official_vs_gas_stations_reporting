@@ -5,7 +5,7 @@ Différence prix de Gasoil en station par jour de la semaine
 Différence prix de Gasoil en station par mois dans l'année
 
 Nombres données Gasoil en stations journalier
-Nombres données stations Gasoil en officiel 
+Nombres données Gasoil en officiel hebdo
 
 
 Gasoil
@@ -14,3 +14,8 @@ Gasoil
 98
 e85
 gplc
+
+////////////
+ecart sur gazole de 2007 a 2018
+ecart sur SP98 de 2013(debut des données stations) a 2018
+
