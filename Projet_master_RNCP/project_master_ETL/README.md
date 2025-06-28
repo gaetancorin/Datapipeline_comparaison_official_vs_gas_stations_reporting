@@ -27,3 +27,6 @@ docker run -d -p 5000:5000 --name project_master_etl --memory="15g" project_mast
 ### 📮 (Recommended) Import API Collection into Postman
 For easier testing, import the '**Project_master_ETL.postman_collection.json**' file into your local Postman application.
 This will give you a ready-to-use set of API requests.
+
+### 📮 (Recommended) Check the technical documentation for a better understanding of the ETL and data visualization
+https://open-documentations.s3.eu-west-3.amazonaws.com/Documentation+technique+Datapipeline_comparaison.pdf

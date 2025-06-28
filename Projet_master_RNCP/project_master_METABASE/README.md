@@ -43,3 +43,6 @@ using Postman or any API client.
 ```
 3. Once the database is restored, open Metabase at:
 http://localhost:3000
+
+4. Follow specific Metabase tutorial for our application:
+https://open-documentations.s3.eu-west-3.amazonaws.com/Support+de+formation+Metabase.pdf
