@@ -30,16 +30,22 @@ def restore_metabase_db_from_S3(folder_path_S3_zipped):
         shutil.rmtree("outputs/restore_metabase_db")
     os.makedirs("outputs/restore_metabase_db", exist_ok=True)
 
-    # verify if mongo_dump name is existing in S3
-    result, logs = S3_manager.check_existence_into_S3(folder_path_S3_zipped)
-    if result != True:
-        return f'fail, {logs}'
-    # download zip to S3
-    S3_manager.download_file_from_s3_to_path(folder_path_S3_zipped, out_path="outputs/restore_metabase_db")
-    local_folder_name_zipped = os.path.basename(folder_path_S3_zipped)
-    # dezip metabase_db
-    local_folder_path_dezipped, official_db_name = decompress_zip_to_outputs(local_folder_name_zipped, outputs_folder="outputs/restore_metabase_db")
-    os.rename(local_folder_path_dezipped, "outputs/restore_metabase_db/"+official_db_name)
+    if os.path.basename(folder_path_S3_zipped) == "metabase_db_example":
+        folder_example_source = "metabase_db_example/metabase.db"
+        folder_destination = os.path.join("outputs/restore_metabase_db", "metabase.db")
+        shutil.copytree(folder_example_source, folder_destination, dirs_exist_ok=True)
+        official_db_name = "metabase.db"
+    else:
+        # verify if mongo_dump name is existing in S3
+        result, logs = S3_manager.check_existence_into_S3(folder_path_S3_zipped)
+        if result != True:
+            return f'fail, {logs}'
+        # download zip to S3
+        S3_manager.download_file_from_s3_to_path(folder_path_S3_zipped, out_path="outputs/restore_metabase_db")
+        local_folder_name_zipped = os.path.basename(folder_path_S3_zipped)
+        # dezip metabase_db
+        local_folder_path_dezipped, official_db_name = decompress_zip_to_outputs(local_folder_name_zipped, outputs_folder="outputs/restore_metabase_db")
+        os.rename(local_folder_path_dezipped, "outputs/restore_metabase_db/"+official_db_name)
     # restore metabase_db
     copy_local_metabase_db_to_docker("outputs/restore_metabase_db/"+official_db_name)
     stop_metabase()

@@ -1,0 +1,16 @@
+Comparatif du prix du SP95 entre prix des stations et prix officiel
+
+Différence prix de Gasoil en station par jour de la semaine
+
+Différence prix de Gasoil en station par mois dans l'année
+
+Nombres données Gasoil en stations journalier
+Nombres données stations Gasoil en officiel 
+
+
+Gasoil
+95
+95-e10
+98
+e85
+gplc
