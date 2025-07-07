@@ -96,11 +96,12 @@ http://127.0.0.1:5001/utils/save_metabase_db_to_S3
 
 ## **POST /utils/restore_metabase_db_from_S3 **
 This API allows you to get specific Metabase database from S3, and load it directly into Metabase.
+You can load example metabase db by writing "metabase_db_example" into zip_name parameter.
 
 ### **Params**
-| Request Params | Field Type | Field Description                                                                     | Optionnal Fill |
-|----------------|------------|---------------------------------------------------------------------------------------|----------------|
-| zip_name     | string     | fill with 'name.zip' you found with API '/utils/list_S3_contents'                     | Yes            |
+| Request Params | Field Type | Field Description                                                             | Optionnal Fill |
+|----------------|------------|-------------------------------------------------------------------------------|----------------|
+| zip_name     | string     | fill with 'metabase_db/name.zip' you found with API '/utils/list_S3_contents' | No             |
 
 ### **Response**
 ```json
