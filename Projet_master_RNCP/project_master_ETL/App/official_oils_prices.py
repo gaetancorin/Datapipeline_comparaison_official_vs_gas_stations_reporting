@@ -2,6 +2,7 @@ import pandas as pd
 import shutil
 import os
 import warnings
+import requests
 import App.utils as utils
 import App.mongo_manager as mongo_manager
 import App.official_oils_prices_bot as official_bot
@@ -38,7 +39,12 @@ def extract_new_official_oils_prices():
     # example of url get by bot (always change because of UUID)=
     # "https://www.ecologie.gouv.fr/simulator-energies/monitoring/export/59707a7b55c0012d0efade376d62a56d3c86129a"
     url = official_bot.get_url_for_download_official_oils_prices()
-    df_official_oils_prices = pd.read_excel(url, sheet_name=1, skiprows=0)
+
+    # need to load file in local because of SSL certificate
+    response = requests.get(url, verify=False)
+    with open("outputs/official_oils_prices/temp_file.xlsx", "wb") as f:
+        f.write(response.content)
+    df_official_oils_prices = pd.read_excel("outputs/official_oils_prices/temp_file.xlsx", sheet_name=1, skiprows=0)
     return df_official_oils_prices
 
 
