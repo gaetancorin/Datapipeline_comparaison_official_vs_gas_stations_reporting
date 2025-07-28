@@ -16,14 +16,15 @@ AUTH_DB = os.getenv('AUTH_DB')
 client_mongo = pymongo.MongoClient(
     host=MONGO_HOST,
     port=MONGO_PORT,
-    username=MONGO_USER,
-    password=MONGO_PASSWORD,
-    authSource=AUTH_DB
+    # username=MONGO_USER,
+    # password=MONGO_PASSWORD,
+    # authSource=AUTH_DB
 )
 
 
 def build_mongo_uri(db_name=None):
-    base_uri = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"
+    # base_uri = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"
+    base_uri = f"mongodb://{MONGO_HOST}:{MONGO_PORT}"
     if db_name:
         base_uri += f"/{db_name}?authSource={AUTH_DB}"
     else:

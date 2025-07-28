@@ -1,12 +1,12 @@
 ATTENTES GLOBALES
+
 avoir une bdd relationnel ou non relationnel
 données temps réel
 orchestrateur (airflow)
 calcul distribué (pyspark)
 faire des tests unitaires
-CI/CD avec GitHub action et test unitaire
+CI/CD avec GitHub action (et tests unitaires)
 système d'alerte avec prometheus flask
-
 
 
 ///////////////////////////////
