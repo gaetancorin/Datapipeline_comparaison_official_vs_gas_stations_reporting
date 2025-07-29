@@ -48,3 +48,31 @@ C4.4.2
 Expliquer en détail un incident technique et sa résolution avec
 nature du problème/ action a mettre en œuvres suivant chaque scenario/ communication pour chaque acteurs/ résultats attendu
 
+
+///////////////////////////////
+explique moi un truc:
+je dois faire 3 trucs:
+-temps réel (SQL, python)
+-orchestrateur (airflow)
+-calcul distribués (Spark)
+
+je dois aussi avoir prometheus et des tests unitaires pour de la ci cd
+
+j'avais pensé récupérer des données btc/usd et eth_usd en websocket et essayer de faire le projet avec.
+
+btc-pipeline/
+├── ingestion/
+│   └── btc_ws_listener.py
+│   └── eth_ws_listener.py
+├── dags/
+│   └── btc_eth_pipeline_dag.py         <-- DAG Airflow
+├── spark_jobs/
+│   └── price_analysis.py           <-- Traitement Spark
+├── metrics/
+│   └── prometheus_exporter.py
+├── tests/
+│   └── test_ingestion.py
+│   └── test_spark.py
+├── Dockerfile
+├── docker-compose.yml              <-- Airflow + Prometheus + PG
+└── requirements.txt
